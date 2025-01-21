@@ -34,6 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { onActivated, onMounted, onUnmounted, provide, watch, ref, computed } from 'vue';
 import { version } from '@@/js/config.js';
+import { compareVersions } from 'compare-versions';
 import { i18n } from '@/i18n.js';
 import MkSuperMenu from '@/components/MkSuperMenu.vue';
 import MkInfo from '@/components/MkInfo.vue';
@@ -42,7 +43,7 @@ import { lookup } from '@/scripts/lookup.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { lookupUser, lookupUserByEmail, lookupFile } from '@/scripts/admin-lookup.js';
-import { PageMetadata, definePageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
+import { type PageMetadata, definePageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
 import { useRouter } from '@/router/supplier.js';
 
 const isEmpty = (x: string | null) => x == null || x === '';
@@ -140,6 +141,11 @@ const menuDef = computed(() => [{
 		text: i18n.ts.customEmojis,
 		to: '/admin/emojis',
 		active: currentPage.value?.route.name === 'emojis',
+	}, {
+		icon: 'ti ti-icons',
+		text: i18n.ts.customEmojis + '(beta)',
+		to: '/admin/emojis2',
+		active: currentPage.value?.route.name === 'emojis2',
 	}, {
 		icon: 'ti ti-sparkles',
 		text: i18n.ts.avatarDecorations,
@@ -289,20 +295,6 @@ provideMetadataReceiver((metadataGetter) => {
 	}
 });
 provideReactiveMetadata(INFO);
-
-function compareVersions(v1: string, v2: string): number {
-	const v1Parts = v1.split('.').map(Number);
-	const v2Parts = v2.split('.').map(Number);
-
-	for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
-		const part1 = v1Parts[i] || 0;
-		const part2 = v2Parts[i] || 0;
-
-		if (part1 < part2) return -1;
-		if (part1 > part2) return 1;
-	}
-	return 0;
-}
 
 function invite() {
 	misskeyApi('admin/invite/create').then(x => {

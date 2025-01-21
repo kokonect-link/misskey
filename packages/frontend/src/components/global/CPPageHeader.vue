@@ -197,18 +197,18 @@ onMounted(() => {
 				// https://developer.mozilla.org/ja/docs/Web/API/HTMLElement/offsetWidth#%E5%80%A4
 				const parentRect = tabEl.parentElement.getBoundingClientRect();
 				const rect = tabEl.getBoundingClientRect();
-				tabHighlightEl.value.style.width = rect.width + 'px';
-				tabHighlightEl.value.style.left = (rect.left - parentRect.left) + 'px';
+				tabHighlightEl.value.style.width = `${rect.width}px`;
+				tabHighlightEl.value.style.left = `${rect.left - parentRect.left}px`;
 			}
 		});
 	}, {
 		immediate: true,
 	});
 
-	if (el.value && el.value.parentElement) {
+	if (el.value?.parentElement) {
 		narrow.value = el.value.parentElement.offsetWidth < 500;
 		ro = new ResizeObserver((entries, observer) => {
-			if (el.value && el.value.parentElement && document.body.contains(el.value as HTMLElement)) {
+			if (el.value?.parentElement && document.body.contains(el.value as HTMLElement)) {
 				narrow.value = el.value.parentElement.offsetWidth < 500;
 			}
 		});
