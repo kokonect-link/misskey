@@ -5898,6 +5898,10 @@ export interface Locale extends ILocale {
      * 開く
      */
     "open": string;
+    /**
+     * キーボードショートカット
+     */
+    "keyboardShortcuts": string;
     "_nsfwOpenBehavior": {
         /**
          * タップして開く
@@ -12716,6 +12720,62 @@ export interface Locale extends ILocale {
          * 整理が進行中
          */
         "inProgress": string;
+    };
+    "_keyboardShortCut": {
+        /**
+         * キーボードショートカット
+         */
+        "title": string;
+        /**
+         * Web上で使えるキーボードショートカットの一覧です。
+         */
+        "description": string;
+        /**
+         * ショートカット一覧
+         */
+        "list": string;
+        "_category": {
+            /**
+             * 一般
+             */
+            "general": string;
+            /**
+             * 投稿フォーム
+             */
+            "postForm": string;
+        };
+        "_general": {
+            /**
+             * 投稿フォームを開く
+             */
+            "openPostForm": string;
+            /**
+             * ダークモードを切り替える
+             */
+            "toggleDarkMode": string;
+            /**
+             * 検索ページに移動
+             */
+            "redirectToSearch": string;
+        };
+        "_postForm": {
+            /**
+             * 公開範囲を切り替える
+             */
+            "toggleVisibility": string;
+            /**
+             * 連合なしを切り替える
+             */
+            "toggleLocalOnly": string;
+            /**
+             * この機能は設定>CherryPickから該当の機能を有効にすることで利用できます。
+             */
+            "featureWarn": string;
+            /**
+             * 投稿する
+             */
+            "sendPost": string;
+        };
     };
 }
 declare const locales: {

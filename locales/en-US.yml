@@ -1461,6 +1461,7 @@ translateProfile: "Translate profile"
 trustedLinkUrlPatterns: "Link to external site warning exclusion list"
 trustedLinkUrlPatternsDescription: "Separate with spaces for an AND condition or with line breaks for an OR condition. Using surrounding keywords with slashes will turn them into a regular expression. If you write only the domain name, it will be a backward match."
 open: "Open"
+keyboardShortcuts: "Keyboard shortcuts"
 _nsfwOpenBehavior:
   click: "Click to open"
   doubleClick: "Double click to open"
@@ -3212,3 +3213,19 @@ _accountTruncate:
   requestAccountDelete: "Request account truncation"
   started: "Truncation has been started."
   inProgress: "Truncation is currently in progress"
+_keyboardShortCut:
+  title: "Keyboard shortcuts"
+  description: "List of keyboard shortcuts available in Web client."
+  list: "List of keyboard shortcuts"
+  _category:
+    general: "General"
+    postForm: "Post form"
+  _general:
+    openPostForm: "Open Post Form"
+    toggleDarkMode: "Toggle Dark Mode"
+    redirectToSearch: "Redirect to search page"
+  _postForm:
+    toggleVisibility: "Toggle Visibility"
+    toggleLocalOnly: "Toggle Local Only"
+    featureWarn: "This feature is available when enable settings in \"Settings - CherryPick\"."
+    sendPost: "Post note"

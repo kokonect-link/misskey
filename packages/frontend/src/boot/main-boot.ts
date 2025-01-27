@@ -26,6 +26,7 @@ import { type Keymap, makeHotkey } from '@/scripts/hotkey.js';
 import { addCustomEmoji, removeCustomEmojis, updateCustomEmojis } from '@/custom-emojis.js';
 import { userName } from '@/filters/user.js';
 import { vibrate } from '@/scripts/vibrate.js';
+import * as os from '@/os.js';
 
 export async function mainBoot() {
 	const { isClientUpdated, isClientMigrated } = await common(() => {
@@ -392,11 +393,11 @@ export async function mainBoot() {
 		});
 
 		main.on('readAllMessagingMessages', () => {
-			updateAccount({ hasUnreadMessagingMessage: false });
+			updateAccountPartial({ hasUnreadMessagingMessage: false });
 		});
 
 		main.on('unreadMessagingMessage', () => {
-			updateAccount({ hasUnreadMessagingMessage: true });
+			updateAccountPartial({ hasUnreadMessagingMessage: true });
 			sound.playMisskeySfx('chatBg');
 			vibrate(defaultStore.state.vibrateChatBg ? [50, 40] : []);
 		});
@@ -435,6 +436,10 @@ export async function mainBoot() {
 		},
 		's': () => {
 			mainRouter.push('/search');
+		},
+		// 環境によるかもしれないが?では反応しないため、shift+/にする必要がある
+		'shift+/': () => {
+			os.popup(defineAsyncComponent(() => import('@/components/MkKeyboardShortcut.vue')), {}, {});
 		},
 	} as const satisfies Keymap;
 	document.addEventListener('keydown', makeHotkey(keymap), { passive: false });

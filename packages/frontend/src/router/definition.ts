@@ -627,6 +627,9 @@ const routes: RouteDef[] = [{
 	path: '/mfc-cheat-sheet',
 	component: page(() => import('@/pages/mfc-cheat-sheet.vue')),
 }, {
+	path: '/keyboard-shortcuts',
+	component: page(() => import('@/pages/keyboard-shortcut.vue')),
+}, {
 	name: 'index',
 	path: '/',
 	component: $i ? page(() => import('@/pages/timeline.vue')) : page(() => import('@/pages/welcome.vue')),
