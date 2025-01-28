@@ -2485,7 +2485,15 @@ type ISigninHistoryRequest = operations['i___signin-history']['requestBody']['co
 type ISigninHistoryResponse = operations['i___signin-history']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
-function isPureRenote(note: Note): note is PureRenote;
+function isPureRenote(note: {
+    renote?: object | null;
+    reply?: object | null;
+    text: string | null;
+    cw?: string | null;
+    fileIds?: string[];
+    poll?: object | null;
+    event?: Record<string, never> | null;
+}): note is PureRenote;
 
 // @public (undocumented)
 export interface IStream extends EventEmitter<StreamEvents> {

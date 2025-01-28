@@ -64,7 +64,7 @@ class BubbleTimelineChannel extends Channel {
 
 		if (isRenotePacked(note) && !isQuotePacked(note) && !this.withRenotes) return;
 
-		if (note.user.isSilenced && !this.following[note.userId] && note.userId !== this.user!.id) return;
+		if (!this.following[note.userId] && note.userId !== this.user!.id) return;
 
 		if (this.isNoteMutedOrBlocked(note)) return;
 

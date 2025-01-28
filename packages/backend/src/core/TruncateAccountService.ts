@@ -26,9 +26,7 @@ export class TruncateAccountService {
 	}): Promise<void> {
 		const _user = await this.usersRepository.findOneByOrFail({ id: user.id });
 
-		this.queueService.createTruncateAccountJob(user, {
-			soft: false,
-		});
+		this.queueService.createTruncateAccountJob(user);
 	}
 }
 

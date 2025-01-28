@@ -416,7 +416,7 @@ describe('CheckModeratorsActivityProcessorService', () => {
 			await service.notifyChangeToDisablePublicNote();
 
 			expect(systemWebhookService.enqueueSystemWebhook).toHaveBeenCalledTimes(1);
-			expect(systemWebhookService.enqueueSystemWebhook.mock.calls[0][0]).toEqual(systemWebhook3);
+			expect(systemWebhookService.enqueueSystemWebhook.mock.calls[0][0] as SystemWebhookEventType).toEqual('inactiveModeratorsDisablePublicNoteChanged');
 		});
 	});
 });

@@ -362,16 +362,6 @@ describe('AbuseReportNotificationService', () => {
 				systemWebhookId: systemWebhook2.id,
 				isActive: false,
 			});
-			const recipient3 = await createRecipient({
-				method: 'webhook',
-				systemWebhookId: systemWebhook3.id,
-				isActive: false,
-			});
-			const recipient4 = await createRecipient({
-				method: 'webhook',
-				systemWebhookId: systemWebhook4.id,
-				isActive: false,
-			});
 
 			const reports: MiAbuseUserReport[] = [
 				{

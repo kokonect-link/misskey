@@ -367,15 +367,10 @@ export class CheckModeratorsActivityProcessorService {
 
 		// -- SystemWebhook
 
-		const systemWebhooks = await this.systemWebhookService.fetchActiveSystemWebhooks()
-			.then(it => it.filter(it => it.on.includes('inactiveModeratorsDisablePublicNoteChanged')));
-		for (const systemWebhook of systemWebhooks) {
-			this.systemWebhookService.enqueueSystemWebhook(
-				systemWebhook,
-				'inactiveModeratorsDisablePublicNoteChanged',
-				{},
-			);
-		}
+		this.systemWebhookService.enqueueSystemWebhook(
+			'inactiveModeratorsDisablePublicNoteChanged',
+			{},
+		);
 	}
 
 	@bindThis
