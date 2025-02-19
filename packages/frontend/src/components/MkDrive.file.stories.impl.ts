@@ -4,9 +4,9 @@
  */
 
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/vue3';
 import { file } from '../../.storybook/fakes.js';
 import MkDrive_file from './MkDrive.file.vue';
+import type { StoryObj } from '@storybook/vue3';
 export const Default = {
 	render(args) {
 		return {

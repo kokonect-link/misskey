@@ -127,7 +127,7 @@ definePageMetadata(() => ({
 }));
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 .description {
 	font-size: .85em;
 	padding: 1rem;

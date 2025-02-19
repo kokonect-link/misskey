@@ -38,7 +38,7 @@ const props = defineProps<{
 }>();
 </script>
 
-<style module>
+<style lang="scss" module>
 .eyeCatchingImageRoot {
 	width: 100%;
 	height: 200px;

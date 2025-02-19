@@ -71,7 +71,7 @@ watch(() => props.lang, (to) => {
 }, { immediate: true });
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .codeBlockRoot :global(.shiki) {
 	padding: 1em;
 	margin: .5em 0;

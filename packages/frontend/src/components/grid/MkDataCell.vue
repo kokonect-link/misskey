@@ -91,12 +91,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script setup lang="ts">
 import { computed, defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, shallowRef, toRefs, watch } from 'vue';
-import { GridEventEmitter, Size } from '@/components/grid/grid.js';
+import type { Size } from '@/components/grid/grid.js';
+import type { CellValue, GridCell } from '@/components/grid/cell.js';
+import type { GridRowSetting } from '@/components/grid/row.js';
+import { GridEventEmitter } from '@/components/grid/grid.js';
 import { useTooltip } from '@/scripts/use-tooltip.js';
 import * as os from '@/os.js';
-import { CellValue, GridCell } from '@/components/grid/cell.js';
 import { equalCellAddress, getCellAddress } from '@/components/grid/grid-utils.js';
-import { GridRowSetting } from '@/components/grid/row.js';
 
 const emit = defineEmits<{
 	(ev: 'operation:beginEdit', sender: GridCell): void;
@@ -317,7 +318,7 @@ onUnmounted(() => {
 
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 $cellHeight: 28px;
 
 .cell {

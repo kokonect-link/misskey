@@ -18,8 +18,8 @@ export type AnyRequest<E extends Endpoint | (string & unknown)> =
 
 export type Response<E extends Endpoint | (string & unknown), P extends AnyRequest<E>> =
 	E extends Endpoint
-	? P extends Request<E> ? Misskey.api.SwitchCaseResponseType<E, P> : never
-	: object;
+		? P extends Request<E> ? Misskey.api.SwitchCaseResponseType<E, P> : never
+		: object;
 
 // Implements Misskey.api.ApiClient.request
 export function misskeyApi<

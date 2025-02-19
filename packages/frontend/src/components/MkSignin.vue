@@ -71,6 +71,7 @@ import { supported as webAuthnSupported, parseRequestOptionsFromJSON } from '@gi
 
 import type { AuthenticationPublicKeyCredential } from '@github/webauthn-json/browser-ponyfill';
 import type { OpenOnRemoteOptions } from '@/scripts/please-login.js';
+import type { PwResponse } from '@/components/MkSignin.password.vue';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { showSuspendedDialog } from '@/scripts/show-suspended-dialog.js';
 import { login } from '@/account.js';
@@ -78,7 +79,7 @@ import { i18n } from '@/i18n.js';
 import * as os from '@/os.js';
 
 import XInput from '@/components/MkSignin.input.vue';
-import XPassword, { type PwResponse } from '@/components/MkSignin.password.vue';
+import XPassword from '@/components/MkSignin.password.vue';
 import XTotp from '@/components/MkSignin.totp.vue';
 import XPasskey from '@/components/MkSignin.passkey.vue';
 

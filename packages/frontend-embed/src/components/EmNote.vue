@@ -62,7 +62,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<div v-show="appearNote.cw == null || showContent" :class="[{ [$style.contentCollapsed]: collapsed }]">
 					<div :class="$style.text">
 						<span v-if="appearNote.isHidden" style="opacity: 0.5">({{ i18n.ts.private }})</span>
-						<EmA v-if="appearNote.replyId" :class="$style.replyIcon" :to="`/notes/${appearNote.replyId}`"><i class="ti ti-arrow-back-up"></i></EmA>
+						<div v-if="appearNote.replyId" style="margin-bottom: 4px;">
+							<EmA :class="$style.replyIcon" :to="`/notes/${appearNote.replyId}`" @click.stop><i class="ti ti-arrow-back-up"></i></EmA>
+							<EmA v-user-preview="appearNote.reply.userId" :class="$style.replyToText" :to="userPage(appearNote.reply.user)" @click.stop><span v-html="replyTo"></span></EmA>
+						</div>
 						<EmMfm
 							v-if="appearNote.text"
 							:parsedNodes="parsed"
@@ -170,6 +173,14 @@ const isLong = shouldCollapsed(appearNote.value, []);
 const isMFM = shouldMfmCollapsed(appearNote.value);
 const collapsed = ref(appearNote.value.cw == null && (isLong || (isMFM)));
 const isDeleted = ref(false);
+
+const replyTo = computed(() => {
+	const username = appearNote.value.reply.user.username;
+	const text = i18n.tsx.replyTo({ user: username });
+	const user = `<span style="color: var(--MI_THEME-accent); margin-right: 0.25em;">@${username}</span>`;
+
+	return text.replace(username, user);
+});
 </script>
 
 <style lang="scss" module>
@@ -446,6 +457,16 @@ const isDeleted = ref(false);
 .replyIcon {
 	color: var(--MI_THEME-accent);
 	margin-right: 0.5em;
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.replyToText {
+	&:hover {
+		text-decoration: none;
+	}
 }
 
 .translation {

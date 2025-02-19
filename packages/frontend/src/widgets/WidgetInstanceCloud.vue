@@ -21,8 +21,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { shallowRef } from 'vue';
 import * as Misskey from 'cherrypick-js';
 import { useInterval } from '@@/js/use-interval.js';
-import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget.js';
-import { GetFormResultType } from '@/scripts/form.js';
+import { useWidgetPropsManager } from './widget.js';
+import type { WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget.js';
+import type { GetFormResultType } from '@/scripts/form.js';
 import MkContainer from '@/components/MkContainer.vue';
 import MkTagCloud from '@/components/MkTagCloud.vue';
 import * as os from '@/os.js';

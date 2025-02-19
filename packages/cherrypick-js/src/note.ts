@@ -1,12 +1,12 @@
 import type { PureRenote } from './entities.js';
 
 export function isPureRenote(note: {
-	renote?:object|null,
-	reply?:object|null,
-	text:string|null,
-	cw?:string|null,
+	renote?: object | null,
+	reply?: object | null,
+	text: string | null,
+	cw?: string | null,
 	fileIds?: string[],
-	poll?:object|null,
+	poll?: object | null,
 	event?: Record<string, never> | null,
 }): note is PureRenote {
 	return (

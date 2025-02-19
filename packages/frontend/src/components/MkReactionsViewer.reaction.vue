@@ -19,10 +19,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { computed, ComputedRef, inject, onMounted, shallowRef, watch } from 'vue';
+import { computed, inject, onMounted, shallowRef, watch } from 'vue';
 import * as Misskey from 'cherrypick-js';
 import { getUnicodeEmoji } from '@@/js/emojilist.js';
 import MkCustomEmojiDetailedDialog from './MkCustomEmojiDetailedDialog.vue';
+import type { ComputedRef } from 'vue';
 import XDetails from '@/components/MkReactionsViewer.details.vue';
 import MkReactionIcon from '@/components/MkReactionIcon.vue';
 import * as os from '@/os.js';
@@ -102,6 +103,15 @@ async function toggleReaction(ev: MouseEvent) {
 			}
 		});
 	} else {
+		if (defaultStore.state.confirmOnReact) {
+			const confirm = await os.confirm({
+				type: 'question',
+				text: i18n.tsx.reactAreYouSure({ emoji: props.reaction.replace('@.', '') }),
+			});
+
+			if (confirm.canceled) return;
+		}
+
 		sound.playMisskeySfx('reaction');
 
 		if (mock) {

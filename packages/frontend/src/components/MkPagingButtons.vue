@@ -87,7 +87,7 @@ function onToTailButtonClicked() {
 }
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .root {
 	display: flex;
 	justify-content: center;

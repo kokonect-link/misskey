@@ -231,7 +231,7 @@ definePageMetadata(() => ({
 }));
 </script>
 
-<style module>
+<style lang="scss" module>
 .button {
 	margin-right: 16px;
 }

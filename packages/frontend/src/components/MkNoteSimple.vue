@@ -47,7 +47,7 @@ import { misskeyApi } from '@/scripts/misskey-api.js';
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note & {
-		isSchedule? : boolean,
+		isSchedule?: boolean,
 		scheduledNoteId?: string
 	};
 	enableNoteClick?: boolean,

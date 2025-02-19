@@ -70,6 +70,7 @@ export const notificationTypes = [
 	'achievementEarned',
 	'exportCompleted',
 	'login',
+	'createToken',
 	'scheduleNote',
 	'test',
 	'app',

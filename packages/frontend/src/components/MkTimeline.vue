@@ -20,6 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { computed, watch, onMounted, onUnmounted, provide, ref, shallowRef } from 'vue';
 import * as Misskey from 'cherrypick-js';
 import type { BasicTimelineType } from '@/timelines.js';
+import type { Paging } from '@/components/MkPagination.vue';
 import MkNotes from '@/components/MkNotes.vue';
 import MkPullToRefresh from '@/components/MkPullToRefresh.vue';
 import { useStream } from '@/stream.js';
@@ -27,7 +28,6 @@ import * as sound from '@/scripts/sound.js';
 import { $i } from '@/account.js';
 import { instance } from '@/instance.js';
 import { defaultStore } from '@/store.js';
-import { Paging } from '@/components/MkPagination.vue';
 import { vibrate } from '@/scripts/vibrate.js';
 import { globalEvents } from '@/events.js';
 
@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<{
 	withReplies?: boolean;
 	withSensitive?: boolean;
 	onlyFiles?: boolean;
-  onlyCats?: boolean;
+	onlyCats?: boolean;
 }>(), {
 	withRenotes: true,
 	withReplies: false,
@@ -61,16 +61,16 @@ provide('tl_withSensitive', computed(() => props.withSensitive));
 provide('inChannel', computed(() => props.src === 'channel'));
 
 type TimelineQueryType = {
-  antennaId?: string,
-  withRenotes?: boolean,
-  withReplies?: boolean,
-  withFiles?: boolean,
-  withCats?: boolean,
-  visibility?: string,
-  listId?: string,
-  channelId?: string,
-  roleId?: string
-}
+	antennaId?: string,
+	withRenotes?: boolean,
+	withReplies?: boolean,
+	withFiles?: boolean,
+	withCats?: boolean,
+	visibility?: string,
+	listId?: string,
+	channelId?: string,
+	roleId?: string
+};
 
 const prComponent = shallowRef<InstanceType<typeof MkPullToRefresh>>();
 const tlComponent = shallowRef<InstanceType<typeof MkNotes>>();

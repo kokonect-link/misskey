@@ -3,16 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/vue3';
 import { ref } from 'vue';
 import { commonHandlers } from '../../../.storybook/mocks.js';
 import { boolean, choose, country, date, firstName, integer, lastName, text } from '../../../.storybook/fake-utils.js';
 import MkGrid from './MkGrid.vue';
-import { GridContext, GridEvent } from '@/components/grid/grid-event.js';
-import { DataSource, GridSetting } from '@/components/grid/grid.js';
-import { GridColumnSetting } from '@/components/grid/column.js';
+import type { StoryObj } from '@storybook/vue3';
+import type { GridContext, GridEvent } from '@/components/grid/grid-event.js';
+import type { DataSource, GridSetting } from '@/components/grid/grid.js';
+import type { GridColumnSetting } from '@/components/grid/column.js';
 
 function d(p: {
 	check?: boolean,

@@ -47,7 +47,7 @@ export type SystemWebhookPayload<T extends SystemWebhookEventType> =
 	T extends 'inactiveModeratorsWarning' ? InactiveModeratorsWarningPayload :
 	T extends 'inactiveModeratorsInvitationOnlyChanged' ? Record<string, never> :
 	T extends 'inactiveModeratorsDisablePublicNoteChanged' ? Record<string, never> :
-		never;
+	never;
 
 @Injectable()
 export class SystemWebhookService implements OnApplicationShutdown {

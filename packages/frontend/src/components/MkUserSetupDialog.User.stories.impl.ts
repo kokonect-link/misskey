@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { StoryObj } from '@storybook/vue3';
 import { userDetailed } from '../../.storybook/fakes.js';
 import MkUserSetupDialog_User from './MkUserSetupDialog.User.vue';
+import type { StoryObj } from '@storybook/vue3';
 export const Default = {
 	render(args) {
 		return {

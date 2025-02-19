@@ -49,8 +49,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue';
-import { version } from '@@/js/config.js';
-import { compareVersions } from 'compare-versions';
 import { openInstanceMenu } from './_common_/common.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
@@ -60,6 +58,7 @@ import MkButton from '@/components/MkButton.vue';
 import { defaultStore } from '@/store.js';
 import { instance } from '@/instance.js';
 import { i18n } from '@/i18n.js';
+import { fetchCherrypickReleases } from '@/scripts/fetch-cherrypick-releases.js';
 
 const WINDOW_THRESHOLD = 1400;
 
@@ -75,7 +74,6 @@ const otherNavItemIndicated = computed<boolean>(() => {
 });
 
 const controlPanelIndicated = ref(false);
-const releasesCherryPick = ref(null);
 
 if ($i && ($i.isAdmin ?? $i.isModerator)) {
 	misskeyApi('admin/abuse-user-reports', {
@@ -85,20 +83,9 @@ if ($i && ($i.isAdmin ?? $i.isModerator)) {
 		if (reports.length > 0) controlPanelIndicated.value = true;
 	});
 
-	misskeyApi('admin/meta')
-		.then(meta => {
-			return fetch('https://api.github.com/repos/kokonect-link/cherrypick/releases')
-				.then(res => res.json())
-				.then(cherryPickData => {
-					releasesCherryPick.value = meta.enableReceivePrerelease ? cherryPickData : cherryPickData.filter(x => !x.prerelease);
-					if ((compareVersions(version, releasesCherryPick.value[0].tag_name) < 0) && (compareVersions(meta.skipCherryPickVersion, releasesCherryPick.value[0].tag_name) < 0)) {
-						controlPanelIndicated.value = true;
-					}
-				});
-		})
-		.catch(error => {
-			console.error('Failed to fetch CherryPick releases:', error);
-		});
+	fetchCherrypickReleases().then((result) => {
+		if (result) controlPanelIndicated.value = true;
+	});
 }
 
 function more(ev: MouseEvent) {

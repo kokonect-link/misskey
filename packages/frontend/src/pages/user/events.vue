@@ -12,7 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<option :value="null">{{ i18n.ts.reverseChronological }}</option>
 			</MkTab>
 		</template>
-		<MkNotes :noGap="true" :pagination="pagination" :class="$style.tl" :getDate="include === 'upcoming' ? note => note.event.start : undefined "/>
+		<MkNotes :noGap="!defaultStore.state.showGapBetweenNotesInTimeline" :pagination="pagination" :class="$style.tl" :getDate="include === 'upcoming' ? note => note.event.start : undefined "/>
 	</MkStickyContainer>
 </MkSpacer>
 </template>
@@ -23,6 +23,7 @@ import * as Misskey from 'cherrypick-js';
 import MkNotes from '@/components/MkNotes.vue';
 import MkTab from '@/components/MkTab.vue';
 import { i18n } from '@/i18n.js';
+import { defaultStore } from '@/store.js';
 
 const props = defineProps<{
 	user: Misskey.entities.UserDetailed;

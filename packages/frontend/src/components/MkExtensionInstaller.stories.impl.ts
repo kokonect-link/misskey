@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { StoryObj } from '@storybook/vue3';
 import lightTheme from '@@/themes/_light.json5';
 import MkExtensionInstaller from './MkExtensionInstaller.vue';
+import type { StoryObj } from '@storybook/vue3';
 
 export const Plugin = {
 	render(args) {

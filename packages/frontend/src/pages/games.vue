@@ -33,7 +33,7 @@ definePageMetadata(() => ({
 }));
 </script>
 
-<style module>
+<style lang="scss" module>
 .link:focus-within {
 	outline: 2px solid var(--MI_THEME-focus);
 	outline-offset: -2px;

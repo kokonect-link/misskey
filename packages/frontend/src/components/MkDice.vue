@@ -24,11 +24,12 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref } from 'vue';
+import { ref } from 'vue';
 import { DiceRoll } from '@dice-roller/rpg-dice-roller';
+import type { Ref } from 'vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
-import { i18n } from '@/i18n';
+import { i18n } from '@/i18n.js';
 
 const props = withDefaults(defineProps<{
 	showMinTotal?: boolean;

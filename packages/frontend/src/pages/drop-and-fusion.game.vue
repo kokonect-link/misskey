@@ -194,9 +194,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { computed, onDeactivated, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue';
 import * as Matter from 'matter-js';
 import * as Misskey from 'cherrypick-js';
-import { DropAndFusionGame, Mono } from 'misskey-bubble-game';
+import { DropAndFusionGame } from 'misskey-bubble-game';
 import { useInterval } from '@@/js/use-interval.js';
 import { apiUrl } from '@@/js/config.js';
+import type { Mono } from 'misskey-bubble-game';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import * as os from '@/os.js';

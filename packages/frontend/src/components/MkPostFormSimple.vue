@@ -40,20 +40,22 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<span v-if="!localOnly"><i class="ti ti-rocket"></i></span>
 					<span v-else><i class="ti ti-rocket-off"></i></span>
 				</button>
-				<button v-click-anime v-tooltip="i18n.ts.reactionAcceptance" class="_button" :class="[$style.headerRightItem, { [$style.danger]: reactionAcceptance === 'likeOnly' }]" @click="toggleReactionAcceptance">
-					<span v-if="reactionAcceptance === 'likeOnly'"><i class="ti ti-heart"></i></span>
-					<span v-else-if="reactionAcceptance === 'likeOnlyForRemote'"><i class="ti ti-heart-plus"></i></span>
-					<span v-else><i class="ti ti-icons"></i></span>
-				</button>
-				<button v-tooltip="i18n.ts._mfc.cheatSheet" class="_button" :class="$style.headerRightItem" @click="openMfmCheatSheet"><i class="ti ti-help-circle"></i></button>
-				<button v-click-anime class="_button" :class="$style.submit" :disabled="!canPost" data-cy-open-post-form-submit @click="post">
-					<div :class="$style.submitInner">
-						<template v-if="posted"></template>
-						<template v-else-if="posting"><MkEllipsis/></template>
-						<template v-else>{{ submitText }}</template>
-						<i style="margin-left: 6px;" :class="posted ? 'ti ti-check' : replyTargetNote ? 'ti ti-arrow-back-up' : renoteTargetNote ? 'ti ti-quote' : updateMode ? 'ti ti-pencil' : defaultStore.state.renameTheButtonInPostFormToNya ? 'ti ti-paw-filled' : 'ti ti-send'"></i>
-					</div>
-				</button>
+				<button ref="otherSettingsButton" v-tooltip="i18n.ts.other" class="_button" :class="$style.headerRightItem" @click="showOtherSettings"><i class="ti ti-dots"></i></button>
+				<div :class="$style.submit">
+					<button v-click-anime class="_button" :disabled="!canPost" data-cy-open-post-form-submit @click="post">
+						<div :class="$style.submitInner">
+							<template v-if="posted"></template>
+							<template v-else-if="posting"><MkEllipsis/></template>
+							<template v-else>{{ submitText }}</template>
+							<i style="margin-left: 6px;" :class="posted ? 'ti ti-check' : saveAsDraft ? 'ti ti-pencil-minus' : replyTargetNote ? 'ti ti-arrow-back-up' : renoteTargetNote ? 'ti ti-quote' : updateMode ? 'ti ti-pencil' : defaultStore.state.renameTheButtonInPostFormToNya ? 'ti ti-paw-filled' : 'ti ti-send'"></i>
+						</div>
+					</button>
+					<button v-click-anime class="_button" style="margin-left: 2px;" @click="showPostMenu">
+						<div :class="$style.submitInnerMenu">
+							<i class="ti ti-caret-down-filled"></i>
+						</div>
+					</button>
+				</div>
 			</div>
 		</header>
 	</Transition>
@@ -70,7 +72,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</div>
 	</div>
 	<MkInfo v-if="hasNotSpecifiedMentions && showForm" warn :class="$style.hasNotSpecifiedMentions">{{ i18n.ts.notSpecifiedMentionWarning }} - <button class="_textButton" @click="addMissingMention()">{{ i18n.ts.add }}</button></MkInfo>
-	<input v-show="useCw && showForm" ref="cwInputEl" v-model="cw" :class="$style.cw" :placeholder="i18n.ts.annotation" @keydown="onKeydown" @keyup="onKeyup" @compositionend="onCompositionEnd">
+	<div v-show="useCw && showForm" :class="$style.cwOuter">
+		<input ref="cwInputEl" v-model="cw" :class="$style.cw" :placeholder="i18n.ts.annotation" @keydown="onKeydown" @keyup="onKeyup" @compositionend="onCompositionEnd">
+		<div v-if="maxCwTextLength - cwTextLength < 20" :class="['_acrylic', $style.cwTextCount, { [$style.cwTextOver]: cwTextLength > maxCwTextLength }]">{{ maxCwTextLength - cwTextLength }}</div>
+	</div>
 	<div :class="[$style.textOuter, { [$style.withCw]: useCw, [$style.showForm]: !showForm }]">
 		<div v-if="targetChannel" :class="$style.colorBar" :style="{ background: targetChannel.color }"></div>
 		<textarea ref="textareaEl" v-model="text" :class="[$style.text]" :disabled="posting || posted" :readonly="textAreaReadOnly" :placeholder="placeholder" data-cy-post-form-text @click="formClick" @keydown="onKeydown" @keyup="onKeyup" @paste="onPaste" @compositionupdate="onCompositionUpdate" @compositionend="onCompositionEnd"/>
@@ -121,7 +126,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { inject, watch, nextTick, onMounted, defineAsyncComponent, provide, shallowRef, ref, computed, type ShallowRef } from 'vue';
+import { inject, watch, nextTick, onMounted, defineAsyncComponent, provide, shallowRef, ref, computed } from 'vue';
 import * as mfm from 'mfc-js';
 import * as Misskey from 'cherrypick-js';
 import insertTextAtCursor from 'insert-text-at-cursor';
@@ -129,12 +134,17 @@ import { toASCII } from 'punycode.js';
 import autosize from 'autosize';
 import { host, url } from '@@/js/config.js';
 import { erase, unique } from '@@/js/array.js';
+import type { ShallowRef } from 'vue';
 import type { MenuItem } from '@/types/menu.js';
 import type { PostFormProps } from '@/types/post-form.js';
+import type { PollEditorModelValue } from '@/components/MkPollEditor.vue';
+import type { DeleteScheduleEditorModelValue } from '@/components/MkScheduledNoteDelete.vue';
 import MkNotePreview from '@/components/MkNotePreview.vue';
 import XPostFormAttaches from '@/components/MkPostFormAttaches.vue';
-import MkPollEditor, { type PollEditorModelValue } from '@/components/MkPollEditor.vue';
+import MkPollEditor from '@/components/MkPollEditor.vue';
 import MkEventEditor from '@/components/MkEventEditor.vue';
+import MkScheduledNoteDelete from '@/components/MkScheduledNoteDelete.vue';
+import MkSchedulePostEditor from '@/components/MkSchedulePostEditor.vue';
 import { extractMentions } from '@/scripts/extract-mentions.js';
 import { formatTimeString } from '@/scripts/format-time-string.js';
 import { Autocomplete } from '@/scripts/autocomplete.js';
@@ -156,8 +166,6 @@ import { vibrate } from '@/scripts/vibrate.js';
 import XSigninDialog from '@/components/MkSigninDialog.vue';
 import * as sound from '@/scripts/sound.js';
 import { mfmFunctionPicker } from '@/scripts/mfm-function-picker.js';
-import MkScheduledNoteDelete, { type DeleteScheduleEditorModelValue } from '@/components/MkScheduledNoteDelete.vue';
-import MkSchedulePostEditor from '@/components/MkSchedulePostEditor.vue';
 
 const $i = signinRequired();
 
@@ -190,6 +198,7 @@ const textareaEl = shallowRef<HTMLTextAreaElement | null>(null);
 const cwInputEl = shallowRef<HTMLInputElement | null>(null);
 const hashtagsInputEl = shallowRef<HTMLInputElement | null>(null);
 const visibilityButton = shallowRef<HTMLElement>();
+const otherSettingsButton = shallowRef<HTMLElement>();
 
 const showForm = ref(false);
 
@@ -227,6 +236,7 @@ const recentHashtags = ref(JSON.parse(miLocalStorage.getItem('hashtags') ?? '[]'
 const imeText = ref('');
 const showingOptions = ref(false);
 const disableRightClick = ref(false);
+const saveAsDraft = ref(false);
 const textAreaReadOnly = ref(false);
 const justEndedComposition = ref(false);
 const renoteTargetNote: ShallowRef<PostFormProps['renote'] | null> = shallowRef(props.renote);
@@ -281,15 +291,17 @@ const placeholder = computed((): string => {
 const submitText = computed((): string => {
 	return !$i
 		? i18n.ts.login
-		: renoteTargetNote.value
-			? i18n.ts.quote
-			: replyTargetNote.value
-				? i18n.ts.reply
-				: props.updateMode
-					? i18n.ts.edit
-					: defaultStore.state.renameTheButtonInPostFormToNya
-						? i18n.ts.nya
-						: i18n.ts.note;
+		: saveAsDraft.value
+			? i18n.ts.draft
+			: renoteTargetNote.value
+				? i18n.ts.quote
+				: replyTargetNote.value
+					? i18n.ts.reply
+					: props.updateMode
+						? i18n.ts.edit
+						: defaultStore.state.renameTheButtonInPostFormToNya
+							? i18n.ts.nya
+							: i18n.ts.note;
 });
 
 const textLength = computed((): number => {
@@ -299,6 +311,12 @@ const textLength = computed((): number => {
 const maxTextLength = computed((): number => {
 	return instance ? instance.maxNoteTextLength : 1000;
 });
+
+const cwTextLength = computed((): number => {
+	return cw.value?.length ?? 0;
+});
+
+const maxCwTextLength = 100;
 
 const canPost = computed((): boolean => {
 	return !props.mock && !posting.value && !posted.value &&
@@ -311,12 +329,9 @@ const canPost = computed((): boolean => {
 			quoteId.value != null
 		) &&
 		(textLength.value <= maxTextLength.value) &&
+		(cwTextLength.value <= maxCwTextLength) &&
 		(files.value.length <= 16) &&
 		(!poll.value || poll.value.choices.length >= 2);
-});
-
-const canSaveAsServerDraft = computed((): boolean => {
-	return canPost.value && (textLength.value > 0 || files.value.length > 0 || poll.value != null || event.value != null);
 });
 
 const withHashtags = computed(defaultStore.makeGetterSetter('postFormWithHashtags'));
@@ -388,6 +403,7 @@ function watchForDraft() {
 	watch(useCw, () => saveDraft());
 	watch(cw, () => saveDraft());
 	watch(disableRightClick, () => saveDraft());
+	watch(saveAsDraft, () => saveDraft());
 	watch(poll, () => saveDraft());
 	watch(event, () => saveDraft());
 	watch(files, () => saveDraft(), { deep: true });
@@ -585,6 +601,59 @@ async function toggleReactionAcceptance() {
 	reactionAcceptance.value = select.result;
 }
 
+//#region その他の設定メニューpopup
+function showOtherSettings() {
+	let reactionAcceptanceIcon = 'ti ti-icons';
+
+	if (reactionAcceptance.value === 'likeOnly') {
+		reactionAcceptanceIcon = 'ti ti-heart _love';
+	} else if (reactionAcceptance.value === 'likeOnlyForRemote') {
+		reactionAcceptanceIcon = 'ti ti-heart-plus';
+	}
+
+	const menuDef = [{
+		icon: reactionAcceptanceIcon,
+		text: i18n.ts.reactionAcceptance,
+		action: () => {
+			toggleReactionAcceptance();
+		},
+	}, { type: 'divider' }, {
+		icon: 'ti ti-help-circle',
+		text: i18n.ts._mfc.cheatSheet,
+		action: () => {
+			openMfmCheatSheet();
+		},
+	}, { type: 'divider' }, {
+		icon: 'ti ti-trash',
+		text: i18n.ts.reset,
+		danger: true,
+		action: async () => {
+			if (props.mock) return;
+			const { canceled } = await os.confirm({
+				type: 'question',
+				text: i18n.ts.resetAreYouSure,
+			});
+			if (canceled) return;
+			clear();
+		},
+	}] satisfies MenuItem[];
+
+	const { dispose } = os.popup(defineAsyncComponent(() => import('@/components/MkPostFormOtherMenu.vue')), {
+		items: menuDef,
+		textLength: textLength.value,
+		src: otherSettingsButton.value,
+	}, {
+		changeReactionAcceptance: (value: Misskey.entities.Note['reactionAcceptance']) => {
+			reactionAcceptance.value = value;
+		},
+		reset: () => {
+			clear();
+		},
+		closed: () => dispose(),
+	});
+}
+//#endregion
+
 function pushVisibleUser(user: Misskey.entities.UserDetailed) {
 	if (!visibleUsers.value.some(u => u.username === user.username && u.host === user.host)) {
 		visibleUsers.value.push(user);
@@ -612,6 +681,9 @@ function clear() {
 	event.value = null;
 	quoteId.value = null;
 	scheduleNote.value = null;
+	scheduledNoteDelete.value = null;
+	saveAsDraft.value = false;
+	disableRightClick.value = false;
 }
 
 function onKeydown(ev: KeyboardEvent) {
@@ -631,7 +703,7 @@ function onKeydown(ev: KeyboardEvent) {
 
 	// justEndedComposition.value is for Safari, which keyDown occurs after compositionend.
 	// ev.isComposing is for another browsers.
-	if (ev.key === 'Escape' && !justEndedComposition.value && !ev.isComposing) esc(ev);
+	if (ev.key === 'Escape' && !justEndedComposition.value && !ev.isComposing) emit('esc');
 }
 
 function onKeyup(ev: KeyboardEvent) {
@@ -764,6 +836,7 @@ function saveDraft() {
 			useCw: useCw.value,
 			cw: cw.value,
 			disableRightClick: disableRightClick.value,
+			saveAsDraft: text.value === '' ? false : saveAsDraft.value,
 			visibility: visibility.value,
 			localOnly: localOnly.value,
 			files: files.value,
@@ -786,6 +859,14 @@ function deleteDraft() {
 	delete draftData[draftKey.value];
 
 	miLocalStorage.setItem('drafts', JSON.stringify(draftData));
+}
+
+function isAnnoying(text: string): boolean {
+	return text.includes('$[x2') ||
+		text.includes('$[x3') ||
+		text.includes('$[x4') ||
+		text.includes('$[scale') ||
+		text.includes('$[position');
 }
 
 async function saveServerDraft(clearLocal = false): Promise<{ canClosePostForm: boolean }> {
@@ -814,6 +895,7 @@ async function saveServerDraft(clearLocal = false): Promise<{ canClosePostForm: 
 			clear();
 			deleteDraft();
 		}
+		cancel();
 		os.toast(i18n.ts.noteDrafted, 'drafted');
 		return { canClosePostForm: true };
 	}).catch((err) => {
@@ -822,6 +904,23 @@ async function saveServerDraft(clearLocal = false): Promise<{ canClosePostForm: 
 }
 
 async function post(ev?: MouseEvent) {
+	if (ev) {
+		const el = (ev.currentTarget ?? ev.target) as HTMLElement | null;
+
+		if (el) {
+			const rect = el.getBoundingClientRect();
+			const x = rect.left + (el.offsetWidth / 2);
+			const y = rect.top + (el.offsetHeight / 2);
+			const { dispose } = os.popup(MkRippleEffect, { x, y }, {
+				end: () => dispose(),
+			});
+		}
+	}
+
+	if (props.mock) return;
+
+	if (saveAsDraft.value) return await saveServerDraft(true);
+
 	if (useCw.value && (cw.value == null || cw.value.trim() === '')) {
 		os.alert({
 			type: 'error',
@@ -862,29 +961,10 @@ async function post(ev?: MouseEvent) {
 		}
 	}
 
-	if (ev) {
-		const el = (ev.currentTarget ?? ev.target) as HTMLElement | null;
-
-		if (el) {
-			const rect = el.getBoundingClientRect();
-			const x = rect.left + (el.offsetWidth / 2);
-			const y = rect.top + (el.offsetHeight / 2);
-			const { dispose } = os.popup(MkRippleEffect, { x, y }, {
-				end: () => dispose(),
-			});
-		}
-	}
-
-	if (props.mock) return;
-
-	const annoying =
-		text.value.includes('$[x2') ||
-		text.value.includes('$[x3') ||
-		text.value.includes('$[x4') ||
-		text.value.includes('$[scale') ||
-		text.value.includes('$[position');
-
-	if (annoying && visibility.value === 'public') {
+	if (visibility.value === 'public' && (
+		(useCw.value && cw.value != null && cw.value.trim() !== '' && isAnnoying(cw.value)) || // CWが迷惑になる場合
+		((!useCw.value || cw.value == null || cw.value.trim() === '') && text.value != null && text.value.trim() !== '' && isAnnoying(text.value)) // CWが無い かつ 本文が迷惑になる場合
+	)) {
 		const { canceled, result } = await os.actions({
 			type: 'warning',
 			text: i18n.ts.thisPostMayBeAnnoying,
@@ -1045,51 +1125,8 @@ async function post(ev?: MouseEvent) {
 	vibrate(defaultStore.state.vibrateSystem ? [10, 20, 10, 20, 10, 20, 60] : []);
 }
 
-async function confirmSavingServerDraft(ev?: Event) {
-	if (canSaveAsServerDraft.value) {
-		ev?.stopPropagation();
-
-		const { canceled, result } = await os.actions({
-			type: 'question',
-			title: i18n.ts._drafts.saveConfirm,
-			text: i18n.ts._drafts.saveConfirmDescription,
-			actions: [{
-				value: 'save' as const,
-				text: i18n.ts.save,
-				primary: true,
-			}, {
-				value: 'discard' as const,
-				text: i18n.ts.dontSave,
-			}, {
-				value: 'cancel' as const,
-				text: i18n.ts.cancel,
-			}],
-		});
-
-		if (canceled || result === 'cancel') {
-			return { canClosePostForm: false };
-		} else if (result === 'save') {
-			return await saveServerDraft(true);
-		} else {
-			return { canClosePostForm: true };
-		}
-	} else {
-		return { canClosePostForm: true };
-	}
-}
-
-async function esc(ev: Event) {
-	const { canClosePostForm } = await confirmSavingServerDraft(ev);
-	if (canClosePostForm) {
-		emit('esc');
-	}
-}
-
-async function cancel() {
-	const { canClosePostForm } = await confirmSavingServerDraft();
-	if (canClosePostForm) {
-		emit('cancel');
-	}
+function cancel() {
+	emit('cancel');
 }
 
 function insertMention() {
@@ -1203,10 +1240,15 @@ function showDraftMenu() {
 		localOnly.value = draft.localOnly ?? false;
 		files.value = draft.files ?? [];
 		hashtags.value = draft.hashtag ?? '';
-		scheduledNoteDelete.value = {
-			deleteAt: draft.deleteAt ? (new Date(draft.deleteAt)).getTime() : null,
-			deleteAfter: null,
-		};
+		if (draft.deleteAt) {
+			scheduledNoteDelete.value = null;
+			nextTick(() => {
+				scheduledNoteDelete.value = {
+					deleteAt: draft.deleteAt ? (new Date(draft.deleteAt)).getTime() : null,
+					deleteAfter: null,
+				};
+			});
+		}
 		if (draft.hashtag) withHashtags.value = true;
 		if (draft.poll) {
 			// 投票を一時的に空にしないと反映されないため
@@ -1323,10 +1365,25 @@ function showOtherMenu(ev: MouseEvent) {
 	if ($i.policies.noteDraftLimit > 0) {
 		menuItems.push({ type: 'divider' }, {
 			type: 'button',
-			text: i18n.ts.draft,
+			text: i18n.ts.draftNoteList,
 			icon: 'ti ti-pencil-minus',
 			action: showDraftMenu,
 			active: postAccount.value != null && postAccount.value.id !== $i.id,
+		});
+	}
+
+	os.popupMenu(menuItems, ev.currentTarget ?? ev.target);
+}
+
+function showPostMenu(ev: MouseEvent) {
+	const menuItems: MenuItem[] = [];
+
+	if ($i.policies.noteDraftLimit > 0) {
+		menuItems.push({
+			type: 'switch',
+			text: i18n.ts.saveAsDraft,
+			icon: 'ti ti-pencil-minus',
+			ref: saveAsDraft,
 		});
 	}
 
@@ -1400,6 +1457,7 @@ onMounted(() => {
 				useCw.value = draft.data.useCw;
 				cw.value = draft.data.cw;
 				disableRightClick.value = draft.data.disableRightClick;
+				saveAsDraft.value = draft.data.saveAsDraft;
 				visibility.value = draft.data.visibility;
 				localOnly.value = draft.data.localOnly;
 				files.value = (draft.data.files || []).filter(draftFile => draftFile);
@@ -1452,6 +1510,7 @@ onMounted(() => {
 			quoteId.value = renoteTargetNote.value ? renoteTargetNote.value.id : null;
 			reactionAcceptance.value = init.reactionAcceptance;
 			disableRightClick.value = init.disableRightClick != null;
+			saveAsDraft.value = false;
 			if (init.deletedAt) {
 				scheduledNoteDelete.value = {
 					deleteAt: init.deletedAt ? (new Date(init.deletedAt)).getTime() : null,
@@ -1471,8 +1530,6 @@ onMounted(() => {
 
 defineExpose({
 	clear,
-	onEsc: esc,
-	onCancel: cancel,
 });
 </script>
 
@@ -1599,15 +1656,22 @@ defineExpose({
 	pointer-events: none;
 }
 
-.submitInner {
+.submitInner, .submitInnerMenu {
 	padding: 0 12px;
 	line-height: 34px;
 	font-weight: bold;
-	border-radius: 6px;
+	border-radius: 6px 0 0 6px;
 	min-width: 90px;
 	box-sizing: border-box;
 	color: var(--MI_THEME-fgOnAccent);
-	background: linear-gradient(90deg, var(--MI_THEME-buttonGradateA), var(--MI_THEME-buttonGradateB));
+	// background: linear-gradient(90deg, var(--MI_THEME-buttonGradateA), var(--MI_THEME-buttonGradateB));
+	background: var(--MI_THEME-accent);
+}
+
+.submitInnerMenu {
+	padding: initial;
+	border-radius: 0 6px 6px 0;
+	min-width: 0;
 }
 
 .headerRightItem {
@@ -1616,7 +1680,7 @@ defineExpose({
 	border-radius: 6px;
 
 	&:hover {
-		background: var(--MI_THEME-X5);
+		background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 	}
 
 	&:disabled {
@@ -1698,7 +1762,7 @@ html[data-color-scheme=light] .preview {
 	margin-right: 14px;
 	padding: 8px 0 8px 8px;
 	border-radius: 8px;
-	background: var(--MI_THEME-X4);
+	background: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
 }
 
 .hasNotSpecifiedMentions {
@@ -1729,10 +1793,32 @@ html[data-color-scheme=light] .preview {
 	}
 }
 
+.cwOuter {
+	width: 100%;
+	position: relative;
+}
+
 .cw {
 	z-index: 1;
 	padding-bottom: 8px;
 	border-bottom: solid 0.5px var(--MI_THEME-divider);
+}
+
+.cwTextCount {
+	position: absolute;
+	top: 0;
+	right: 2px;
+	padding: 2px 6px;
+	font-size: .9em;
+	color: var(--MI_THEME-warn);
+	border-radius: 6px;
+	max-width: 100%;
+	min-width: 1.6em;
+	text-align: center;
+
+	&.cwTextOver {
+		color: #ff2a2a;
+	}
 }
 
 .hashtags {
@@ -1822,7 +1908,7 @@ html[data-color-scheme=light] .preview {
 	border-radius: 6px;
 
 	&:hover {
-		background: var(--MI_THEME-X5);
+		background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 	}
 
 	&.footerButtonActive {

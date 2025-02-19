@@ -392,7 +392,7 @@ import { i18n } from '@/i18n.js';
 import { customEmojis } from '@/custom-emojis.js';
 
 defineProps<{
-  popup?: boolean;
+	popup?: boolean;
 }>();
 
 const preview_mention = ref('@example');

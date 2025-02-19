@@ -4,8 +4,8 @@
  */
 
 import { expect, userEvent, within } from '@storybook/test';
-import { StoryObj } from '@storybook/vue3';
 import MkA from './MkA.vue';
+import type { StoryObj } from '@storybook/vue3';
 import { tick } from '@/scripts/test-utils.js';
 export const Default = {
 	render(args) {

@@ -22,9 +22,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, provide, inject, Ref, ref, watch, useTemplateRef } from 'vue';
-
+import { onMounted, onUnmounted, provide, inject, ref, watch, useTemplateRef } from 'vue';
 import { CURRENT_STICKY_BOTTOM, CURRENT_STICKY_TOP } from '@@/js/const.js';
+import type { Ref } from 'vue';
 import { deviceKind } from '@/scripts/device-kind.js';
 import { mainRouter } from '@/router/main.js';
 import { defaultStore } from '@/store.js';
@@ -35,7 +35,7 @@ const isFriendly = ref(miLocalStorage.getItem('ui') === 'friendly');
 const isAllowHideHeader = ref(['index', 'explore', 'my-notifications', 'my-favorites'].includes(<string>mainRouter.currentRoute.value.name));
 const MOBILE_THRESHOLD = 500;
 
-const isMobile = ref(deviceKind === 'smartphone' || window.innerWidth <= MOBILE_THRESHOLD);
+const isMobile = ref(['smartphone', 'tablet'].includes(<string>deviceKind) || window.innerWidth <= MOBILE_THRESHOLD);
 window.addEventListener('resize', () => {
 	isMobile.value = deviceKind === 'smartphone' || window.innerWidth <= MOBILE_THRESHOLD;
 });

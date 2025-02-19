@@ -82,13 +82,14 @@ import JSON5 from 'json5';
 import lightTheme from '@@/themes/_light.json5';
 import darkTheme from '@@/themes/_dark.json5';
 import { host } from '@@/js/config.js';
+import type { Theme } from '@/scripts/theme.js';
 import MkButton from '@/components/MkButton.vue';
 import MkCodeEditor from '@/components/MkCodeEditor.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
 import MkFolder from '@/components/MkFolder.vue';
 
 import { $i } from '@/account.js';
-import { Theme, applyTheme } from '@/scripts/theme.js';
+import { applyTheme } from '@/scripts/theme.js';
 import * as os from '@/os.js';
 import { ColdDeviceStorage, defaultStore } from '@/store.js';
 import { addTheme } from '@/theme-store.js';

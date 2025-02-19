@@ -1,5 +1,6 @@
 _lang_: "日本語"
 
+replyTo: "{user}さんに返信"
 forceCollapseAllRenotes: "すべてのリノートの省略"
 forceCollapseAllRenotesDescription: "私または相手がリノートしたすべてのノートをたたんで表示します。"
 overrideRobotsTxt: "robots.txtの上書き"
@@ -41,6 +42,7 @@ showNoAltWarning: "キャプション未設定案内"
 showNoAltWarningDescription: "画像に代替テキストが設定されていない場合に警告を表示する"
 filesGridLayoutInUserPage: "メディアタブをグリッドレイアウトに変更"
 filesGridLayoutInUserPageDescription: "この設定をオンにすると、ユーザーページのメディアタブがアルバム形式で表示されます。\nオフにすると、元のノートのタイムラインに変更されます。"
+showReplyTargetNote: "返信対象ノートを表示"
 showReplyTargetNoteInSemiTransparent: "返信対象ノートを半透明に表示"
 noteFooterButton: "ノートにアクションボタンを表示"
 collapseReplies: "返信のスマート省略"
@@ -1471,7 +1473,12 @@ availableRoles: "利用可能なロール"
 acknowledgeNotesAndEnable: "注意事項を理解した上でオンにします。"
 federationSpecified: "このサーバーはホワイトリスト連合で運用されています。管理者が指定したサーバー以外とやり取りすることはできません。"
 federationDisabled: "このサーバーは連合が無効化されています。他のサーバーのユーザーとやり取りすることはできません。"
+confirmOnReact: "リアクションする際に確認する"
+reactAreYouSure: "\" {emoji} \" をリアクションしますか？"
+textCount: "文字数"
 draft: "下書き"
+draftNoteList: "下書き一覧"
+saveAsDraft: "下書きで保存"
 showUnreadNotificationsCount: "未読の通知の数を表示する"
 showCatOnly: "キャット付きのみ"
 additionalPermissionsForFlash: "Playへの追加許可"
@@ -2678,6 +2685,7 @@ _widgets:
   birthdayFollowings: "今日誕生日のユーザー"
   search: "検索"
   dice: "サイコロ"
+  weather: "天気"
 
 _cw:
   hide: "隠す"
@@ -2901,6 +2909,8 @@ _notification:
   exportOfXCompleted: "{x}のエクスポートが完了しました"
   login: "ログインがありました"
   loginDescription: "{ip}でログインされました。\n承認されていない機器であれば、セキュリティのために「{text}」を通じてすべての機器でログアウトを行ってください。"
+  createToken: "アクセストークンが作成されました"
+  createTokenDescription: "心当たりがない場合は「{text}」を通じてアクセストークンを削除してください。"
 
   _types:
     all: "すべて"
@@ -3342,10 +3352,21 @@ _captcha:
       title: "CAPTCHAエラー"
       text: "想定外のエラーが発生しました。"
 
+_bootErrors:
+  title: "読み込みに失敗しました"
+  serverError: "少し待ってからリロードしてもまだ問題が解決されない場合、以下のError IDを添えてサーバー管理者に連絡してください。"
+  solution: "以下を行うと解決する可能性があります。"
+  solution1: "ブラウザおよびOSを最新バージョンに更新する"
+  solution2: "アドブロッカーを無効にする"
+  solution3: "ブラウザのキャッシュをクリアする"
+  solution4: "(Tor Browser) dom.webaudio.enabledをtrueに設定する"
+  otherOption: "その他のオプション"
+  otherOption1: "クライアント設定とキャッシュを削除"
+  otherOption2: "簡易クライアントを起動"
+  otherOption3: "修復ツールを起動"
+
 _drafts:
   select: "下書きを選択"
-  saveConfirm: "サーバーに下書きを保存しますか？"
-  saveConfirmDescription: "ここで「保存しない」を選択しても、下書きは端末内に保存されます。"
   delete: "下書きを削除"
   deleteAreYouSure: "下書きを削除しますか？"
   noDrafts: "下書きはありません。"
@@ -3443,3 +3464,8 @@ _keyboardShortCut:
     toggleLocalOnly: "連合なしを切り替える"
     featureWarn: "この機能は「設定 - CherryPick」から該当の機能を有効にすることで利用できます。"
     sendPost: "投稿する"
+
+_weather:
+  humidity: "湿度"
+  pressure: "気圧"
+  precipitation: "降水量"

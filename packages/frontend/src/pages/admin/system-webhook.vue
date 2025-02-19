@@ -86,6 +86,6 @@ definePageMetadata(() => ({
 }));
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 
 </style>

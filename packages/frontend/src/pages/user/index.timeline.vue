@@ -22,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</template>
 	<XReactions v-if="tab === 'reactions'" :user="user"/>
 	<XFiles v-if="tab === 'files' && defaultStore.state.filesGridLayoutInUserPage" :pagination="pagination"/>
-	<MkNotes v-else :noGap="true" :pagination="pagination" :class="$style.tl"/>
+	<MkNotes v-else :noGap="!defaultStore.state.showGapBetweenNotesInTimeline" :pagination="pagination" :class="$style.tl" :forceShowReplyTargetNote="true"/>
 </MkStickyContainer>
 </template>
 
@@ -41,7 +41,7 @@ const props = defineProps<{
 	user: Misskey.entities.UserDetailed;
 }>();
 
-const tab = ref<string | null>(null);
+const tab = ref<string | null>('all');
 
 const pagination = computed(() => tab.value === 'featured' ? {
 	endpoint: 'users/featured-notes' as const,

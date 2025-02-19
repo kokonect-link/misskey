@@ -67,7 +67,7 @@ const typing = () => {
 };
 
 const draftKey = computed(() => props.user ? 'user:' + props.user.id : 'group:' + props.group?.id);
-const canSend = computed(() => (text.value != null && text.value !== '') || file.value != null);
+const canSend = computed(() => text.value.trim() !== '' || file.value != null);
 
 watch([text.value, file.value], saveDraft);
 

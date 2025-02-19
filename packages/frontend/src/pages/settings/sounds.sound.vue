@@ -190,7 +190,7 @@ function save() {
 }
 </script>
 
-<style module>
+<style lang="scss" module>
 @keyframes saved {
   0% { opacity: 1; }
   100% { opacity: 0; }

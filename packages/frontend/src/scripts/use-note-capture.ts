@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { onUnmounted, Ref, ShallowRef } from 'vue';
+import { onUnmounted } from 'vue';
 import * as Misskey from 'cherrypick-js';
+import type { Ref, ShallowRef } from 'vue';
 import { useStream } from '@/stream.js';
 import { $i } from '@/account.js';
 

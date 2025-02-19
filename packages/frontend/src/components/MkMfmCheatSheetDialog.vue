@@ -23,8 +23,8 @@ import XMfmCheatSheet from '@/pages/mfc-cheat-sheet.vue';
 import { i18n } from '@/i18n.js';
 
 const emit = defineEmits<{
-  (ev: 'done'): void;
-  (ev: 'closed'): void;
+	(ev: 'done'): void;
+	(ev: 'closed'): void;
 }>();
 
 const dialog = shallowRef<InstanceType<typeof MkModalWindow>>();

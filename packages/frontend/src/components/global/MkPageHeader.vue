@@ -71,8 +71,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { onMounted, onUnmounted, ref, inject, shallowRef, computed } from 'vue';
 import tinycolor from 'tinycolor2';
 import { getScrollPosition, scrollToTop } from '@@/js/scroll.js';
-import XTabs, { Tab } from './MkPageHeader.tabs.vue';
+import XTabs from './MkPageHeader.tabs.vue';
+import type { Tab } from './MkPageHeader.tabs.vue';
 import type { PageMetadata } from '@/scripts/page-metadata.js';
+import type { PageHeaderItem } from '@/types/page-header.js';
 import { globalEvents } from '@/events.js';
 import { injectReactiveMetadata } from '@/scripts/page-metadata.js';
 import { $i, openAccountMenu as openAccountMenu_ } from '@/account.js';
@@ -81,7 +83,6 @@ import { mainRouter } from '@/router/main.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 import { defaultStore } from '@/store.js';
-import { PageHeaderItem } from '@/types/page-header.js';
 import MkFollowButton from '@/components/MkFollowButton.vue';
 
 const isFriendly = ref(miLocalStorage.getItem('ui') === 'friendly');

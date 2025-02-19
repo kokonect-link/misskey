@@ -19,8 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script setup lang="ts">
-
-import { GridRow } from '@/components/grid/row.js';
+import type { GridRow } from '@/components/grid/row.js';
 
 defineProps<{
 	content: string,
@@ -29,7 +28,7 @@ defineProps<{
 
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 $cellHeight: 28px;
 $cellWidth: 34px;
 

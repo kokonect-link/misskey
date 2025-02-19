@@ -29,10 +29,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { defineAsyncComponent, ref } from 'vue';
 import { toUnicode as decodePunycode } from 'punycode.js';
 import { url as local } from '@@/js/config.js';
+import type { MkABehavior } from '@/components/global/MkA.vue';
 import * as os from '@/os.js';
 import { useTooltip } from '@/scripts/use-tooltip.js';
 import { isEnabledUrlPreview } from '@/instance.js';
-import { MkABehavior } from '@/components/global/MkA.vue';
 import { warningExternalWebsite } from '@/scripts/warning-external-website.js';
 
 function safeURIDecode(str: string): string {

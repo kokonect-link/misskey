@@ -23,10 +23,12 @@ import { provide, shallowRef, ref } from 'vue';
 import { getScrollContainer } from '@@/js/scroll.js';
 import { isLink } from '@@/js/is-link.js';
 import XColumn from './column.vue';
-import { deckStore, Column } from '@/ui/deck/deck-store.js';
+import type { Column } from '@/ui/deck/deck-store.js';
+import type { PageMetadata } from '@/scripts/page-metadata.js';
+import { deckStore } from '@/ui/deck/deck-store.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
-import { PageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
+import { provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
 import { useScrollPositionManager } from '@/nirax.js';
 import { mainRouter } from '@/router/main.js';
 

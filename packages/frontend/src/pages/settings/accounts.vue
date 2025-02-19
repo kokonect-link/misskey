@@ -29,7 +29,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import type * as Misskey from 'cherrypick-js';
+import * as Misskey from 'cherrypick-js';
+import type { MenuItem } from '@/types/menu.js';
 import FormSuspense from '@/components/form/suspense.vue';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os.js';
@@ -38,7 +39,6 @@ import { getAccounts, removeAccount as _removeAccount, login, $i, getAccountWith
 import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';
-import { MenuItem } from '@/types/menu';
 
 const storedAccounts = ref<{ id: string, token: string }[] | null>(null);
 const accounts = ref(new Map<string, Misskey.entities.UserDetailed | null>());

@@ -4,7 +4,7 @@
  */
 
 import { action } from '@storybook/addon-actions';
-import { StoryObj } from '@storybook/vue3';
+import type { StoryObj } from '@storybook/vue3';
 import { HttpResponse, http } from 'msw';
 import { abuseUserReport } from '../packages/frontend/.storybook/fakes.js';
 import { commonHandlers } from '../packages/frontend/.storybook/mocks.js';

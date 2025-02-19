@@ -197,7 +197,7 @@ onMounted(() => {
 	font-size: 14px;
 
 	&:hover {
-		background: var(--MI_THEME-X7);
+		background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 	}
 
 	&.selected {

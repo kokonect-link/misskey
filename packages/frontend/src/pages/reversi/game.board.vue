@@ -343,7 +343,7 @@ if (!props.game.isEnded) {
 
 		if (iAmPlayer.value) {
 			if ((isMyTurn.value && myTurnTimerRmain.value === 0) || (!isMyTurn.value && opTurnTimerRmain.value === 0)) {
-			props.connection!.send('claimTimeIsUp', {});
+				props.connection!.send('claimTimeIsUp', {});
 			}
 		}
 	}, TIMER_INTERVAL_SEC * 1000, { immediate: false, afterMounted: true });

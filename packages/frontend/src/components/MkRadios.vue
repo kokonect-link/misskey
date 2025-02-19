@@ -4,8 +4,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <script lang="ts">
-import { VNode, defineComponent, h, ref, watch } from 'vue';
+import { defineComponent, h, ref, watch } from 'vue';
 import MkRadio from './MkRadio.vue';
+import type { VNode } from 'vue';
 
 export default defineComponent({
 	props: {
@@ -56,7 +57,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .novjtcto {
 	> .label {
 		font-size: 0.85em;

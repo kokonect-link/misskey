@@ -5,9 +5,10 @@
 
 import { utils, values } from '@syuilo/aiscript';
 import { v4 as uuid } from 'uuid';
-import { ref, Ref } from 'vue';
+import { ref } from 'vue';
 import * as Misskey from 'cherrypick-js';
 import { assertStringAndIsIn } from './common.js';
+import type { Ref } from 'vue';
 
 const ALIGNS = ['left', 'center', 'right'] as const;
 const FONTS = ['serif', 'sans-serif', 'monospace'] as const;

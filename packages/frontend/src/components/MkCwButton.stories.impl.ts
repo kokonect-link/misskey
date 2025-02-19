@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { StoryObj } from '@storybook/vue3';
 import { action } from '@storybook/addon-actions';
 import { expect, userEvent, within } from '@storybook/test';
 import { file } from '../../.storybook/fakes.js';
 import MkCwButton from './MkCwButton.vue';
+import type { StoryObj } from '@storybook/vue3';
 import { i18n } from '@/i18n.js';
 
 export const Default = {

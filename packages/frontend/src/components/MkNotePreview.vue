@@ -39,7 +39,7 @@ const props = defineProps<{
 	useCw: boolean;
 	cw: string | null;
 	user: Misskey.entities.User;
-  showProfile?: boolean;
+	showProfile?: boolean;
 }>();
 
 if (defaultStore.state.alwaysShowCw) showContent.value = true;

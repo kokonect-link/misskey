@@ -37,7 +37,7 @@ withDefaults(defineProps<{
 });
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .root {
 	--fukidashi-radius: var(--MI-radius);
 	--fukidashi-bg: var(--MI_THEME-panel);

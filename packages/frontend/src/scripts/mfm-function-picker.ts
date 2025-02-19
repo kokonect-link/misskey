@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { Ref, nextTick } from 'vue';
+import { nextTick } from 'vue';
 import { MFM_TAGS, HTML_TAGS } from '@@/js/const.js';
+import type { Ref } from 'vue';
 import type { MenuItem } from '@/types/menu.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';

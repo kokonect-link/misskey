@@ -279,7 +279,7 @@ onUnmounted(() => {
 //#endregion
 </script>
 
-<style module>
+<style lang="scss" module>
 .transition_x_enterActive,
 .transition_x_leaveActive {
 	transition: opacity 0.3s cubic-bezier(0,0,.35,1), transform 0.3s cubic-bezier(0,0,.35,1);

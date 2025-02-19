@@ -37,11 +37,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script setup lang="ts">
-import { GridEventEmitter, Size } from '@/components/grid/grid.js';
+import type { Size } from '@/components/grid/grid.js';
+import type { CellValue, GridCell } from '@/components/grid/cell.js';
+import type { GridRow, GridRowSetting } from '@/components/grid/row.js';
+import { GridEventEmitter } from '@/components/grid/grid.js';
 import MkDataCell from '@/components/grid/MkDataCell.vue';
 import MkNumberCell from '@/components/grid/MkNumberCell.vue';
-import { CellValue, GridCell } from '@/components/grid/cell.js';
-import { GridRow, GridRowSetting } from '@/components/grid/row.js';
 
 const emit = defineEmits<{
 	(ev: 'operation:beginEdit', sender: GridCell): void;
@@ -58,7 +59,7 @@ defineProps<{
 
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .row {
 	display: flex;
 	flex-direction: row;

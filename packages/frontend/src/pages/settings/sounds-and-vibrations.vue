@@ -52,8 +52,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { Ref, computed, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import XSound from './sounds.sound.vue';
+import type { Ref } from 'vue';
 import type { SoundType, OperationType } from '@/scripts/sound.js';
 import type { SoundStore } from '@/store.js';
 import * as os from '@/os.js';

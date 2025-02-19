@@ -29,13 +29,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script setup lang="ts">
 import { computed, onActivated, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue';
+import type { PageMetadata } from '@/scripts/page-metadata.js';
+import type { SuperMenuDef } from '@/components/MkSuperMenu.vue';
 import { i18n } from '@/i18n.js';
 import MkInfo from '@/components/MkInfo.vue';
 import MkSuperMenu from '@/components/MkSuperMenu.vue';
 import { signout, signoutAll, $i } from '@/account.js';
 import { clearCache } from '@/scripts/clear-cache.js';
 import { instance } from '@/instance.js';
-import { PageMetadata, definePageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
+import { definePageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
 import * as os from '@/os.js';
 import { useRouter } from '@/router/supplier.js';
 
@@ -60,7 +62,7 @@ const ro = new ResizeObserver((entries, observer) => {
 	narrow.value = entries[0].borderBoxSize[0].inlineSize < NARROW_THRESHOLD;
 });
 
-const menuDef = computed(() => [{
+const menuDef = computed<SuperMenuDef[]>(() => [{
 	title: i18n.ts.basicSettings,
 	items: [{
 		icon: 'ti ti-user',

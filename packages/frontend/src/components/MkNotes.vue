@@ -25,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				:ad="true"
 				:class="$style.notes"
 			>
-				<MkNote :key="note._featuredId_ || note._prId_ || note.id" :class="$style.note" :note="note" :withHardMute="true" :notification="notification"/>
+				<MkNote :key="note._featuredId_ || note._prId_ || note.id" :class="$style.note" :note="note" :withHardMute="true" :notification="notification" :forceShowReplyTargetNote="forceShowReplyTargetNote"/>
 			</MkDateSeparatedList>
 		</div>
 	</template>
@@ -34,9 +34,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { shallowRef, onMounted } from 'vue';
+import type { Paging } from '@/components/MkPagination.vue';
 import MkNote from '@/components/MkNote.vue';
 import MkDateSeparatedList from '@/components/MkDateSeparatedList.vue';
-import MkPagination, { Paging } from '@/components/MkPagination.vue';
+import MkPagination from '@/components/MkPagination.vue';
 import { i18n } from '@/i18n.js';
 import { infoImageUrl } from '@/instance.js';
 import { globalEvents } from '@/events.js';
@@ -46,7 +47,8 @@ const props = defineProps<{
 	noGap?: boolean;
 	getDate?: (any) => string; // custom function to separate notes on something that isn't createdAt
 	disableAutoLoad?: boolean;
-  notification?: boolean;
+	notification?: boolean;
+	forceShowReplyTargetNote?: boolean;
 }>();
 
 const pagingComponent = shallowRef<InstanceType<typeof MkPagination>>();

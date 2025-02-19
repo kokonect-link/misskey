@@ -41,14 +41,14 @@ export type Tab = {
 	onClick?: (ev: MouseEvent) => void;
 } & (
 	| {
-			iconOnly?: false;
-			title: string;
-			icon?: string;
-		}
+		iconOnly?: false;
+		title: string;
+		icon?: string;
+	}
 	| {
-			iconOnly: true;
-			icon: string;
-		}
+		iconOnly: true;
+		icon: string;
+	}
 );
 </script>
 

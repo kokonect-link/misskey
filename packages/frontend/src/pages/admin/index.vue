@@ -33,9 +33,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { onActivated, onMounted, onUnmounted, provide, watch, ref, computed } from 'vue';
-import { version } from '@@/js/config.js';
-import { compareVersions } from 'compare-versions';
 import type { SuperMenuDef } from '@/components/MkSuperMenu.vue';
+import type { PageMetadata } from '@/scripts/page-metadata.js';
 import { i18n } from '@/i18n.js';
 import MkSuperMenu from '@/components/MkSuperMenu.vue';
 import MkInfo from '@/components/MkInfo.vue';
@@ -44,8 +43,9 @@ import { lookup } from '@/scripts/lookup.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { lookupUser, lookupUserByEmail, lookupFile } from '@/scripts/admin-lookup.js';
-import { type PageMetadata, definePageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
+import { definePageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
 import { useRouter } from '@/router/supplier.js';
+import { fetchCherrypickReleases } from '@/scripts/fetch-cherrypick-releases.js';
 
 const isEmpty = (x: string | null) => x == null || x === '';
 
@@ -72,7 +72,6 @@ const noInquiryUrl = computed(() => isEmpty(instance.inquiryUrl));
 const thereIsUnresolvedAbuseReport = ref(false);
 const currentPage = computed(() => router.currentRef.value.child);
 const updateAvailable = ref(false);
-const releasesCherryPick = ref(null);
 
 misskeyApi('admin/abuse-user-reports', {
 	state: 'unresolved',
@@ -81,20 +80,9 @@ misskeyApi('admin/abuse-user-reports', {
 	if (reports.length > 0) thereIsUnresolvedAbuseReport.value = true;
 });
 
-misskeyApi('admin/meta')
-	.then(meta => {
-		return fetch('https://api.github.com/repos/kokonect-link/cherrypick/releases')
-			.then(res => res.json())
-			.then(cherryPickData => {
-				releasesCherryPick.value = meta.enableReceivePrerelease ? cherryPickData : cherryPickData.filter(x => !x.prerelease);
-				if ((compareVersions(version, releasesCherryPick.value[0].tag_name) < 0) && (compareVersions(meta.skipCherryPickVersion, releasesCherryPick.value[0].tag_name) < 0)) {
-					updateAvailable.value = true;
-				}
-			});
-	})
-	.catch(error => {
-		console.error('Failed to fetch CherryPick releases:', error);
-	});
+fetchCherrypickReleases().then((result) => {
+	if (result) updateAvailable.value = true;
+});
 
 const NARROW_THRESHOLD = 600;
 const ro = new ResizeObserver((entries, observer) => {

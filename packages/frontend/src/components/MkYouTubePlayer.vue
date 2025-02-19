@@ -61,7 +61,7 @@ ytFetch();
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .poamfof {
 	position: relative;
 	overflow: hidden;

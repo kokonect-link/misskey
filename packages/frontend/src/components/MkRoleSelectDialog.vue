@@ -135,7 +135,7 @@ function onCloseModalWindow() {
 fetchRoles();
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .root {
 	max-height: 410px;
 	height: 410px;

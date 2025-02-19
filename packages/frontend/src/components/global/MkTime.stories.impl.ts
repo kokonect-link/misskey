@@ -4,9 +4,9 @@
  */
 
 import { expect } from '@storybook/test';
-import { StoryObj } from '@storybook/vue3';
 import { dateTimeFormat } from '@@/js/intl-const.js';
 import MkTime from './MkTime.vue';
+import type { StoryObj } from '@storybook/vue3';
 import { i18n } from '@/i18n.js';
 const now = new Date('2023-04-01T00:00:00.000Z');
 const future = new Date('2024-04-01T00:00:00.000Z');

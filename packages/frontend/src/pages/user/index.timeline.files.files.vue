@@ -56,7 +56,7 @@ import MkRippleEffect from '@/components/MkRippleEffect.vue';
 
 const props = defineProps<{
 	user: Misskey.entities.UserDetailed;
-	note: Misskey.entities.Note & { files:Misskey.entities.DriveFile[] };
+	note: Misskey.entities.Note & { files: Misskey.entities.DriveFile[] };
 }>();
 
 const showingFiles = ref<string[]>([]);

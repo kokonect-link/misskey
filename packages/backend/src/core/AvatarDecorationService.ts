@@ -5,7 +5,7 @@
 
 import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
 import * as Redis from 'ioredis';
-import { IsNull } from 'typeorm';
+import { IsNull, Not } from 'typeorm';
 import type { AvatarDecorationsRepository, InstancesRepository, UsersRepository, MiAvatarDecoration, MiUser } from '@/models/_.js';
 import { IdService } from '@/core/IdService.js';
 import { GlobalEventService } from '@/core/GlobalEventService.js';
@@ -18,6 +18,15 @@ import { HttpRequestService } from '@/core/HttpRequestService.js';
 import { appendQuery, query } from '@/misc/prelude/url.js';
 import type { Config } from '@/config.js';
 
+// TODO:
+// 1. checkDuplicateする => done
+// 2. リモートのデコレーションをproxy通してないメディアURLで保存できるようにする => プロキシのURLだと403になるので必須
+// 3. AvatarDecorationsEntityServiceを作ってpackする
+// 4. リモートユーザーのデコレーションを適宜fetchできる関数とAPIを作る
+// 5. remoteUserUpdateの処理をAPIfetchの部分とアップデートの部分に分ける => 4をやるためには必要
+// 6. するか迷う: MiAvatarDecorationのカラムにdescriptionの他にライセンス欄を追加する
+// 7. するか迷う: APubでデコレーションを配信する? => Misskey自体は今のところやることなさそうだからやるならnsを作る必要がある
+// 8. avatar-decorationのjson-schemaを作る => packするためには必要
 @Injectable()
 export class AvatarDecorationService implements OnApplicationShutdown {
 	public cache: MemorySingleCache<MiAvatarDecoration[]>;
@@ -183,6 +192,7 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 				url: this.getProxiedUrl(avatarDecoration.url, 'avatar'),
 				remoteId: avatarDecorationId,
 				host: userHost,
+				rawUrl: avatarDecoration.url,
 			};
 
 			if (existingDecoration == null) {
@@ -227,15 +237,77 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 	}
 
 	@bindThis
-	public async getAll(noCache = false, withRemote = false): Promise<MiAvatarDecoration[]> {
+	public async getAll(noCache = false, withRemote = false, remoteOnly = false): Promise<MiAvatarDecoration[]> {
 		if (noCache) {
 			this.cache.delete();
+			this.cacheWithRemote.delete();
 		}
-		if (!withRemote) {
-			return this.cache.fetch(() => this.avatarDecorationsRepository.find({ where: { host: IsNull() } }));
-		} else {
+
+		if (remoteOnly) {
+			return this.cacheWithRemote.fetch(() => this.avatarDecorationsRepository.find({
+				where: {
+					host: Not(IsNull()),
+				},
+			}));
+		} else if (withRemote) {
 			return this.cacheWithRemote.fetch(() => this.avatarDecorationsRepository.find());
+		} else {
+			return this.cache.fetch(() => this.avatarDecorationsRepository.find({
+				where: {
+					host: IsNull(),
+				},
+			}));
 		}
+	}
+
+	@bindThis
+	private async fetchRemoteDecorations(id: string): Promise<string | null> {
+		const decoration = await this.avatarDecorationsRepository.findOneBy({ id });
+		if (decoration == null) return null;
+		if (!decoration.host) return null;
+
+		const instance = await this.instancesRepository.findOneBy({ host: decoration.host });
+		if (!instance) return null;
+
+		if (!['misskey', 'cherrypick', 'sharkey'].includes(<string>instance.softwareName)) {
+			return null;
+		}
+
+		const decorationApiUrl = `https://${instance.host}/api/get-avatar-decorations`;
+
+		try {
+			const res = await this.httpRequestService.send(decorationApiUrl, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({}),
+			});
+
+			const allDecorations: any = await res.json();
+			const remoteDecoration = allDecorations.find((d: any) => d.id === decoration.remoteId);
+
+			if (remoteDecoration?.url) {
+				return remoteDecoration.url;
+			}
+		} catch (e) {
+			return null;
+		}
+		return null;
+	}
+
+	@bindThis
+	public async getRawUrl(decoration: MiAvatarDecoration): Promise<string | null> {
+		if (decoration.rawUrl) return decoration.rawUrl;
+
+		const remoteUrl = await this.fetchRemoteDecorations(decoration.id);
+		if (remoteUrl) {
+			await this.update(decoration.id, { rawUrl: remoteUrl });
+		}
+		return remoteUrl;
+	}
+
+	@bindThis
+	public checkDuplicate(url: string, name: string): Promise<boolean> {
+		return this.avatarDecorationsRepository.exists({ where: { url, name, host: IsNull() } });
 	}
 
 	@bindThis

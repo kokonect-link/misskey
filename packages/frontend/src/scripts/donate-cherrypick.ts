@@ -25,6 +25,12 @@ export function donateCherryPick(ev: MouseEvent) {
 			window.open('https://github.com/sponsors/noridev', '_blank');
 		},
 	}, {
+		text: 'Kakao Pay',
+		icon: 'ti ti-pig-money',
+		action: () => {
+			window.open('https://qr.kakaopay.com/Ej9SHx6pQ', '_blank');
+		},
+	}, {
 		text: 'pixivFANBOX',
 		icon: 'ti ti-pig-money',
 		action: () => {

@@ -73,13 +73,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { computed, onMounted, ref, shallowRef, toRefs } from 'vue';
 import { entities } from 'cherrypick-js';
+import type { MkSystemWebhookResult } from '@/components/MkSystemWebhookEditor.impl.js';
 import MkButton from '@/components/MkButton.vue';
 import MkModalWindow from '@/components/MkModalWindow.vue';
 import { i18n } from '@/i18n.js';
 import MkInput from '@/components/MkInput.vue';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import MkSelect from '@/components/MkSelect.vue';
-import { MkSystemWebhookResult, showSystemWebhookEditorDialog } from '@/components/MkSystemWebhookEditor.impl.js';
+import { showSystemWebhookEditorDialog } from '@/components/MkSystemWebhookEditor.impl.js';
 import MkSwitch from '@/components/MkSwitch.vue';
 import MkDivider from '@/components/MkDivider.vue';
 import * as os from '@/os.js';

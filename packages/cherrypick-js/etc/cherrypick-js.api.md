@@ -7,7 +7,7 @@
 import type { AuthenticationResponseJSON } from '@simplewebauthn/types';
 import { EventEmitter } from 'eventemitter3';
 import { Options } from 'reconnecting-websocket';
-import type { PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/types';
+import type { PublicKeyCredentialRequestOptionsJSON as PublicKeyCredentialRequestOptionsJSON_2 } from '@simplewebauthn/types';
 import _ReconnectingWebSocket from 'reconnecting-websocket';
 
 // Warning: (ae-forgotten-export) The symbol "components" needs to be exported by the entry point index.d.ts
@@ -138,6 +138,12 @@ type AdminAnnouncementsListResponse = operations['admin___announcements___list']
 type AdminAnnouncementsUpdateRequest = operations['admin___announcements___update']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
+type AdminAvatarDecorationsCopyRequest = operations['admin___avatar-decorations___copy']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type AdminAvatarDecorationsCopyResponse = operations['admin___avatar-decorations___copy']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
 type AdminAvatarDecorationsCreateRequest = operations['admin___avatar-decorations___create']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -145,6 +151,12 @@ type AdminAvatarDecorationsCreateResponse = operations['admin___avatar-decoratio
 
 // @public (undocumented)
 type AdminAvatarDecorationsDeleteRequest = operations['admin___avatar-decorations___delete']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type AdminAvatarDecorationsListRemoteRequest = operations['admin___avatar-decorations___list-remote']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type AdminAvatarDecorationsListRemoteResponse = operations['admin___avatar-decorations___list-remote']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type AdminAvatarDecorationsListRequest = operations['admin___avatar-decorations___list']['requestBody']['content']['application/json'];
@@ -1330,11 +1342,15 @@ declare namespace entities {
         AdminAnnouncementsListRequest,
         AdminAnnouncementsListResponse,
         AdminAnnouncementsUpdateRequest,
+        AdminAvatarDecorationsCopyRequest,
+        AdminAvatarDecorationsCopyResponse,
         AdminAvatarDecorationsCreateRequest,
         AdminAvatarDecorationsCreateResponse,
         AdminAvatarDecorationsDeleteRequest,
         AdminAvatarDecorationsListRequest,
         AdminAvatarDecorationsListResponse,
+        AdminAvatarDecorationsListRemoteRequest,
+        AdminAvatarDecorationsListRemoteResponse,
         AdminAvatarDecorationsUpdateRequest,
         AdminCaptchaCurrentResponse,
         AdminCaptchaSaveRequest,
@@ -3337,12 +3353,12 @@ type SigninFlowResponse = {
 } | {
     finished: false;
     next: 'passkey';
-    authRequest: PublicKeyCredentialRequestOptionsJSON;
+    authRequest: PublicKeyCredentialRequestOptionsJSON_2;
 };
 
 // @public (undocumented)
 type SigninWithPasskeyInitResponse = {
-    option: PublicKeyCredentialRequestOptionsJSON;
+    option: PublicKeyCredentialRequestOptionsJSON_2;
     context: string;
 };
 

@@ -4,8 +4,9 @@
  */
 
 import { EventEmitter } from 'eventemitter3';
+import type { IRouter, Resolved, RouteDef, RouterEvent, RouterFlag } from '@/nirax.js';
+
 import type { App, ShallowRef } from 'vue';
-import { IRouter, Resolved, RouteDef, RouterEvent, RouterFlag } from '@/nirax.js';
 
 /**
  * {@link Router}による画面遷移を可能とするために{@link mainRouter}をセットアップする。

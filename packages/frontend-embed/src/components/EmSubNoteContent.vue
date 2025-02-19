@@ -8,7 +8,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<div>
 		<span v-if="note.isHidden" style="opacity: 0.5">({{ i18n.ts.private }})</span>
 		<span v-if="note.deletedAt" style="opacity: 0.5">({{ i18n.ts.deletedNote }})</span>
-		<EmA v-if="note.replyId" :class="$style.reply" :to="`/notes/${note.replyId}`"><i class="ti ti-arrow-back-up"></i></EmA>
+		<div v-if="note.replyId" style="margin-bottom: 4px;">
+			<EmA :class="$style.reply" :to="`/notes/${note.replyId}`" @click.stop><i class="ti ti-arrow-back-up"></i></EmA>
+			<EmA v-user-preview="note.reply.userId" :class="$style.replyToText" :to="userPage(note.reply.user)" @click.stop><span v-html="replyTo"></span></EmA>
+		</div>
 		<EmMfm v-if="note.text" :text="note.text" :author="note.user" :nyaize="'respect'" :emojiUrls="note.emojis"/>
 		<EmA v-if="note.renoteId" :class="$style.rp" :to="`/notes/${note.renoteId}`">RN: ...</EmA>
 		<div>
@@ -70,6 +73,7 @@ import { i18n } from '@/i18n.js';
 import EmA from '@/components/EmA.vue';
 import EmMfm from '@/components/EmMfm.js';
 import EmReactionsViewer from '@/components/EmReactionsViewer.vue';
+import { userPage } from '@/utils.js';
 
 const props = defineProps<{
 	note: Misskey.entities.Note;
@@ -84,6 +88,14 @@ const collapseLabel = computed(() => {
 	return concat([
 		props.note.files && props.note.files.length !== 0 ? [i18n.tsx._cw.files({ count: props.note.files.length })] : [],
 	] as string[][]).join(' / ');
+});
+
+const replyTo = computed(() => {
+	const username = props.note.reply.user.username;
+	const text = i18n.tsx.replyTo({ user: username });
+	const user = `<span style="color: var(--MI_THEME-accent); margin-right: 0.25em;">@${username}</span>`;
+
+	return text.replace(username, user);
 });
 </script>
 
@@ -137,6 +149,16 @@ const collapseLabel = computed(() => {
 .reply {
 	margin-right: 6px;
 	color: var(--MI_THEME-accent);
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.replyToText {
+	&:hover {
+		text-decoration: none;
+	}
 }
 
 .rp {

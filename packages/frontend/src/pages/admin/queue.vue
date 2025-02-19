@@ -16,9 +16,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, type Ref } from 'vue';
+import { ref, computed } from 'vue';
 import * as config from '@@/js/config.js';
 import XQueue from './queue.chart.vue';
+import type { Ref } from 'vue';
 import type { Tab } from '@/components/global/MkPageHeader.tabs.vue';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';

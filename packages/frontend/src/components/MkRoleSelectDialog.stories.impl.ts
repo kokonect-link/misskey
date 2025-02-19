@@ -3,11 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { StoryObj } from '@storybook/vue3';
 import { http, HttpResponse } from 'msw';
 import { role } from '../../.storybook/fakes.js';
 import { commonHandlers } from '../../.storybook/mocks.js';
+import type { StoryObj } from '@storybook/vue3';
 import MkRoleSelectDialog from '@/components/MkRoleSelectDialog.vue';
 
 const roles = [

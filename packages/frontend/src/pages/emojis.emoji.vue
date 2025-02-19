@@ -25,7 +25,7 @@ import MkCustomEmojiDetailedDialog from '@/components/MkCustomEmojiDetailedDialo
 import { $i } from '@/account.js';
 
 const props = defineProps<{
-  emoji: Misskey.entities.EmojiSimple;
+	emoji: Misskey.entities.EmojiSimple;
 }>();
 
 function menu(ev) {

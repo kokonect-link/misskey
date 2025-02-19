@@ -59,7 +59,7 @@ onMounted(() => {
 });
 </script>
 
-<style module>
+<style lang="scss" module>
 .transition_balloon_enterActive {
 	transition: all .15s cubic-bezier(0.65, 0.05, 0.36, 1);
 }

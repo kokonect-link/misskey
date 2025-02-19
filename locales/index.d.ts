@@ -14,6 +14,10 @@ export interface Locale extends ILocale {
      */
     "_lang_": string;
     /**
+     * {user}さんに返信
+     */
+    "replyTo": ParameterizedString<"user">;
+    /**
      * すべてのリノートの省略
      */
     "forceCollapseAllRenotes": string;
@@ -181,6 +185,10 @@ export interface Locale extends ILocale {
      * オフにすると、元のノートのタイムラインに変更されます。
      */
     "filesGridLayoutInUserPageDescription": string;
+    /**
+     * 返信対象ノートを表示
+     */
+    "showReplyTargetNote": string;
     /**
      * 返信対象ノートを半透明に表示
      */
@@ -5915,9 +5923,29 @@ export interface Locale extends ILocale {
      */
     "federationDisabled": string;
     /**
+     * リアクションする際に確認する
+     */
+    "confirmOnReact": string;
+    /**
+     * " {emoji} " をリアクションしますか？
+     */
+    "reactAreYouSure": ParameterizedString<"emoji">;
+    /**
+     * 文字数
+     */
+    "textCount": string;
+    /**
      * 下書き
      */
     "draft": string;
+    /**
+     * 下書き一覧
+     */
+    "draftNoteList": string;
+    /**
+     * 下書きで保存
+     */
+    "saveAsDraft": string;
     /**
      * 未読の通知の数を表示する
      */
@@ -10215,6 +10243,10 @@ export interface Locale extends ILocale {
          * サイコロ
          */
         "dice": string;
+        /**
+         * 天気
+         */
+        "weather": string;
     };
     "_cw": {
         /**
@@ -11020,6 +11052,14 @@ export interface Locale extends ILocale {
          * 承認されていない機器であれば、セキュリティのために「{text}」を通じてすべての機器でログアウトを行ってください。
          */
         "loginDescription": ParameterizedString<"ip" | "text">;
+        /**
+         * アクセストークンが作成されました
+         */
+        "createToken": string;
+        /**
+         * 心当たりがない場合は「{text}」を通じてアクセストークンを削除してください。
+         */
+        "createTokenDescription": ParameterizedString<"text">;
         "_types": {
             /**
              * すべて
@@ -12538,19 +12578,57 @@ export interface Locale extends ILocale {
             };
         };
     };
+    "_bootErrors": {
+        /**
+         * 読み込みに失敗しました
+         */
+        "title": string;
+        /**
+         * 少し待ってからリロードしてもまだ問題が解決されない場合、以下のError IDを添えてサーバー管理者に連絡してください。
+         */
+        "serverError": string;
+        /**
+         * 以下を行うと解決する可能性があります。
+         */
+        "solution": string;
+        /**
+         * ブラウザおよびOSを最新バージョンに更新する
+         */
+        "solution1": string;
+        /**
+         * アドブロッカーを無効にする
+         */
+        "solution2": string;
+        /**
+         * ブラウザのキャッシュをクリアする
+         */
+        "solution3": string;
+        /**
+         * (Tor Browser) dom.webaudio.enabledをtrueに設定する
+         */
+        "solution4": string;
+        /**
+         * その他のオプション
+         */
+        "otherOption": string;
+        /**
+         * クライアント設定とキャッシュを削除
+         */
+        "otherOption1": string;
+        /**
+         * 簡易クライアントを起動
+         */
+        "otherOption2": string;
+        /**
+         * 修復ツールを起動
+         */
+        "otherOption3": string;
+    };
     "_drafts": {
         /**
          * 下書きを選択
          */
         "select": string;
-        /**
-         * サーバーに下書きを保存しますか？
-         */
-        "saveConfirm": string;
-        /**
-         * ここで「保存しない」を選択しても、下書きは端末内に保存されます。
-         */
-        "saveConfirmDescription": string;
         /**
          * 下書きを削除
          */
@@ -12871,6 +12949,20 @@ export interface Locale extends ILocale {
              */
             "sendPost": string;
         };
+    };
+    "_weather": {
+        /**
+         * 湿度
+         */
+        "humidity": string;
+        /**
+         * 気圧
+         */
+        "pressure": string;
+        /**
+         * 降水量
+         */
+        "precipitation": string;
     };
 }
 declare const locales: {

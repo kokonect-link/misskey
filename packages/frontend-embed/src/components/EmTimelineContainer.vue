@@ -18,7 +18,7 @@ withDefaults(defineProps<{
 });
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .timelineRoot {
 	background-color: var(--MI_THEME-panel);
 	height: 100%;

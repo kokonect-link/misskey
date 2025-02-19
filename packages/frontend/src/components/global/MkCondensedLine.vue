@@ -63,7 +63,7 @@ watch(content, (value, oldValue) => {
 });
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .container {
 	display: inline-block;
 	max-width: 100%;

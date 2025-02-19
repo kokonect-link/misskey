@@ -5,8 +5,10 @@
 
 import { ref } from 'vue';
 import { Interpreter, Parser, utils, values } from '@syuilo/aiscript';
+import type { Plugin } from '@/store.js';
 import { aiScriptReadline, createAiScriptEnv } from '@/scripts/aiscript/api.js';
-import { Plugin, noteActions, notePostInterruptors, noteViewInterruptors, postFormActions, userActions, pageViewInterruptors } from '@/store.js';
+import { inputText } from '@/os.js';
+import { noteActions, notePostInterruptors, noteViewInterruptors, postFormActions, userActions, pageViewInterruptors } from '@/store.js';
 
 const parser = new Parser();
 const pluginContexts = new Map<string, Interpreter>();

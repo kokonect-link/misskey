@@ -63,6 +63,7 @@ import { onMounted, onUnmounted, ref, inject, watch, nextTick, shallowRef, compu
 import tinycolor from 'tinycolor2';
 import { getScrollPosition, scrollToTop } from '@@/js/scroll.js';
 import type { PageMetadata } from '@/scripts/page-metadata.js';
+import type { PageHeaderItem } from '@/types/page-header.js';
 import { globalEvents } from '@/events.js';
 import { injectReactiveMetadata } from '@/scripts/page-metadata.js';
 import { $i, openAccountMenu as openAccountMenu_ } from '@/account.js';
@@ -71,7 +72,6 @@ import { mainRouter } from '@/router/main.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 import { defaultStore } from '@/store.js';
-import { PageHeaderItem } from '@/types/page-header.js';
 import MkFollowButton from '@/components/MkFollowButton.vue';
 
 const isFriendly = ref(miLocalStorage.getItem('ui') === 'friendly');

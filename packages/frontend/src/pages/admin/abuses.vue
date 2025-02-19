@@ -237,7 +237,7 @@ definePageMetadata(() => ({
 }));
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .root {
 	display: flex;
 	flex-direction: column;

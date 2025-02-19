@@ -15,9 +15,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { onMounted, shallowRef, ref } from 'vue';
-import { Chart, ChartDataset } from 'chart.js';
+import { Chart } from 'chart.js';
 import * as Misskey from 'cherrypick-js';
 import gradient from 'chartjs-plugin-gradient';
+import type { ChartDataset } from 'chart.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { defaultStore } from '@/store.js';
 import { useChartTooltip } from '@/scripts/use-chart-tooltip.js';

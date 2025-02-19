@@ -95,6 +95,6 @@ onUnmounted(() => {
 	display: inline-block;
 	padding: 2px;
 	border-radius: 6px;
-	background: var(--MI_THEME-X5);
+	background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 }
 </style>

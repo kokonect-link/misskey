@@ -135,6 +135,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkSwitch v-model="forceCollapseAllRenotes">
 					<template #label>{{ i18n.ts.forceCollapseAllRenotes }}</template>
 					<template #caption>{{ i18n.ts.forceCollapseAllRenotesDescription }}</template>
+					<span class="_beta">CherryPick</span>
 				</MkSwitch>
 				<MkSwitch v-model="collapseRenotes" :disabled="forceCollapseAllRenotes">
 					<template #label>{{ i18n.ts.collapseRenotes }}</template>
@@ -190,7 +191,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkSwitch v-model="allMediaNoteCollapse">{{ i18n.ts.allMediaNoteCollapse }} <span class="_beta">CherryPick</span></MkSwitch>
 				<MkSwitch v-model="showNoAltTextWarning">{{ i18n.ts.showNoAltWarning }}<template #caption>{{ i18n.ts.showNoAltWarningDescription }}</template> <span class="_beta">CherryPick</span></MkSwitch>
 				<MkSwitch v-model="alwaysShowCw">{{ i18n.ts.alwaysShowCw }} <span class="_beta">CherryPick</span></MkSwitch>
-				<MkSwitch v-model="showReplyTargetNoteInSemiTransparent">{{ i18n.ts.showReplyTargetNoteInSemiTransparent }} <span class="_beta">CherryPick</span></MkSwitch>
+				<MkSwitch v-model="showReplyTargetNote">{{ i18n.ts.showReplyTargetNote }} <span class="_beta">CherryPick</span></MkSwitch>
+				<MkSwitch v-model="showReplyTargetNoteInSemiTransparent" :disabled="!showReplyTargetNote">{{ i18n.ts.showReplyTargetNoteInSemiTransparent }} <span class="_beta">CherryPick</span></MkSwitch>
 			</div>
 
 			<div class="_gaps_s" style="margin: 0 10px;">
@@ -356,6 +358,7 @@ const showingAnimatedImages = computed(defaultStore.makeGetterSetter('showingAni
 const allMediaNoteCollapse = computed(defaultStore.makeGetterSetter('allMediaNoteCollapse'));
 const showNoAltTextWarning = computed(defaultStore.makeGetterSetter('showNoAltTextWarning'));
 const alwaysShowCw = computed(defaultStore.makeGetterSetter('alwaysShowCw'));
+const showReplyTargetNote = computed(defaultStore.makeGetterSetter('showReplyTargetNote'));
 const showReplyTargetNoteInSemiTransparent = computed(defaultStore.makeGetterSetter('showReplyTargetNoteInSemiTransparent'));
 const nsfwOpenBehavior = computed(defaultStore.makeGetterSetter('nsfwOpenBehavior'));
 const renoteVisibilitySelection = computed(defaultStore.makeGetterSetter('renoteVisibilitySelection'));
@@ -443,6 +446,7 @@ watch([
 	renoteQuoteButtonSeparation,
 	allMediaNoteCollapse,
 	alwaysShowCw,
+	showReplyTargetNote,
 	showReplyTargetNoteInSemiTransparent,
 	showReplyButtonInNoteFooter,
 	showRenoteButtonInNoteFooter,

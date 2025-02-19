@@ -39,6 +39,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<slot name="button"></slot>
 </div>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import { PrismEditor } from 'vue-prism-editor';
@@ -79,7 +80,7 @@ const expirationDate = ref<Date | null>(null);
 
 type NonNullType<T> = {
 	[P in keyof T]: NonNullable<T[P]>
-}
+};
 
 const emit = defineEmits(['update:modelValue']);
 
@@ -131,9 +132,9 @@ watch(() => props.editable, () => {
 		value.value.previousExpiresAt = value.value.expiresAt;
 	}
 });
-
 </script>
-<style lang="scss">
+
+<style lang="scss" scoped>
 .dslkjkwejflew .prism-editor__textarea {
 	padding-left: 10px !important;
 	padding-bottom: 10px !important;
@@ -144,6 +145,7 @@ watch(() => props.editable, () => {
 	padding-bottom: 10px !important;
 }
 </style>
+
 <style lang="scss" module>
 .label {
 	font-size: 0.85em;

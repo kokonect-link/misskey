@@ -54,6 +54,7 @@ import sanitizeHtml from 'sanitize-html';
 import { emojilist, getEmojiName } from '@@/js/emojilist.js';
 import { char2twemojiFilePath, char2fluentEmojiFilePath } from '@@/js/emoji-base.js';
 import { MFM_TAGS, MFM_PARAMS, HTML_TAGS } from '@@/js/const.js';
+import type { EmojiDef } from '@/scripts/search-emoji.js';
 import contains from '@/scripts/contains.js';
 import { acct } from '@/filters/user.js';
 import * as os from '@/os.js';
@@ -62,7 +63,7 @@ import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { customEmojis } from '@/custom-emojis.js';
-import { searchEmoji, EmojiDef } from '@/scripts/search-emoji.js';
+import { searchEmoji } from '@/scripts/search-emoji.js';
 
 const lib = emojilist.filter(x => x.category !== 'flags');
 
@@ -204,8 +205,10 @@ function exec() {
 			users.value = JSON.parse(cache);
 			fetching.value = false;
 		} else {
+			const [username, host] = props.q.toString().split('@');
 			misskeyApi('users/search-by-username-and-host', {
-				username: props.q,
+				username: username,
+				host: host,
 				limit: 10,
 				detail: false,
 			}).then(searchedUsers => {
@@ -421,7 +424,7 @@ onBeforeUnmount(() => {
 	text-overflow: ellipsis;
 
 	&:hover {
-		background: var(--MI_THEME-X3);
+		background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 	}
 
 	&[data-selected='true'] {

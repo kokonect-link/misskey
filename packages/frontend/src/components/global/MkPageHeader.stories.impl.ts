@@ -4,8 +4,8 @@
  */
 
 import { waitFor } from '@storybook/test';
-import { StoryObj } from '@storybook/vue3';
 import MkPageHeader from './MkPageHeader.vue';
+import type { StoryObj } from '@storybook/vue3';
 export const Empty = {
 	render(args) {
 		return {

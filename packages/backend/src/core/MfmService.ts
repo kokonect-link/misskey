@@ -439,7 +439,7 @@ export class MfmService {
 			mention: (node) => {
 				const a = doc.createElement('a');
 				const { username, host, acct } = node.props;
-				const remoteUserInfo = mentionedRemoteUsers.find(remoteUser => remoteUser.username.toLowerCase() === username.toLowerCase() && remoteUser.host?.toLowerCase() === host?.toLowerCase());
+				const remoteUserInfo = mentionedRemoteUsers.find(remoteUser => remoteUser.username.toLowerCase() === username.toLowerCase() && remoteUser.host.toLowerCase() === host?.toLowerCase());
 				a.setAttribute('href', remoteUserInfo
 					? (remoteUserInfo.url ? remoteUserInfo.url : remoteUserInfo.uri)
 					: `${this.config.url}/${acct.endsWith(`@${this.config.url}`) ? acct.substring(0, acct.length - this.config.url.length - 1) : acct}`);
@@ -492,7 +492,8 @@ export class MfmService {
 
 		appendChildren(nodes, body);
 
-		const serialized = new XMLSerializer().serializeToString(body);
+		// Remove the unnecessary namespace
+		const serialized = new XMLSerializer().serializeToString(body).replace(/^\s*<p xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\">/, '<p>');
 
 		happyDOM.close().catch(err => {});
 

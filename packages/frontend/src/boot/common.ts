@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { computed, watch, version as vueVersion, App, defineAsyncComponent } from 'vue';
+import { computed, watch, version as vueVersion, defineAsyncComponent } from 'vue';
 import { compareVersions } from 'compare-versions';
 import { version, basedMisskeyVersion, lang, updateLocale, locale } from '@@/js/config.js';
+import type { App } from 'vue';
 import widgets from '@/widgets/index.js';
 import directives from '@/directives/index.js';
 import components from '@/components/index.js';

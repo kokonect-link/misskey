@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { StoryObj } from '@storybook/vue3';
 import { action } from '@storybook/addon-actions';
 import MkCodeEditor from './MkCodeEditor.vue';
+import type { StoryObj } from '@storybook/vue3';
 const code = `for (let i, 100) {
 	<: if (i % 15 == 0) "FizzBuzz"
 		elif (i % 3 == 0) "Fizz"

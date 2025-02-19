@@ -114,11 +114,11 @@ export type EventSchema = {
 	}[];
 	typicalAgeRange?: string;
 	identifier?: string;
-}
+};
 
 export type IEvent = {
 	start: Date;
 	end: Date | null
 	title: string;
 	metadata: EventSchema;
-}
+};

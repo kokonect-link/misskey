@@ -26,7 +26,7 @@ withDefaults(defineProps<{
 });
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .root {
 	--balloon-radius: 16px;
 	--balloon-bg: var(--MI_THEME-panel);

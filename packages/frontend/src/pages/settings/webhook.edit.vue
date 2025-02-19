@@ -161,7 +161,7 @@ definePageMetadata(() => ({
 }));
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .switchBox {
 	display: flex;
 	align-items: center;

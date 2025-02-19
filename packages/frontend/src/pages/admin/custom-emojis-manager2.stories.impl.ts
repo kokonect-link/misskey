@@ -4,12 +4,12 @@
  */
 
 import { delay, http, HttpResponse } from 'msw';
-import { StoryObj } from '@storybook/vue3';
 import { entities } from 'cherrypick-js';
 import { commonHandlers } from '../../../.storybook/mocks.js';
 import { emoji } from '../../../.storybook/fakes.js';
 import { fakeId } from '../../../.storybook/fake-utils.js';
 import custom_emojis_manager2 from './custom-emojis-manager2.vue';
+import type { StoryObj } from '@storybook/vue3';
 
 function createRender(params: {
 	emojis: entities.EmojiDetailedAdmin[];

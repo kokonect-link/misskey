@@ -120,15 +120,17 @@
 		if (document.readyState === 'loading') {
 			await new Promise(resolve => window.addEventListener('DOMContentLoaded', resolve));
 		}
+
+		const locale = JSON.parse(localStorage.getItem('locale') || '{}');
+
+		const title = locale?._bootErrors?.title || 'Failed to initialize CherryPick';
+		const reload = locale?.reload || 'Reload';
+
 		document.body.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16v.01" /></svg>
-		<div class="submessage">뭔가 문제가 있는 것 같아요!</div>
-		<div class="message">読み込みに失敗しました</div>
-		<div class="submessage">Failed to initialize CherryPick</div>
+		<div class="message">${title}</div>
 		<div class="submessage">Error Code: ${code}</div>
 		<button onclick="location.reload(!0)">
-			<div>새로 고침</div>
-			<div><small>リロード</small></div>
-			<div><small>Reload</small></div>
+			<div>${reload}</div>
 		</button>`;
 		addStyle(`
 		#cherrypick_app,

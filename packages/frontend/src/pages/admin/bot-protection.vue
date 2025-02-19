@@ -156,6 +156,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { computed, defineAsyncComponent, ref, watch } from 'vue';
 import * as Misskey from 'cherrypick-js';
+import type { ApiWithDialogCustomErrors } from '@/os.js';
 import MkRadios from '@/components/MkRadios.vue';
 import MkInput from '@/components/MkInput.vue';
 import FormSlot from '@/components/form/slot.vue';
@@ -167,7 +168,6 @@ import { useForm } from '@/scripts/use-form.js';
 import MkFormFooter from '@/components/MkFormFooter.vue';
 import MkFolder from '@/components/MkFolder.vue';
 import MkInfo from '@/components/MkInfo.vue';
-import { ApiWithDialogCustomErrors } from '@/os.js';
 
 const MkCaptcha = defineAsyncComponent(() => import('@/components/MkCaptcha.vue'));
 

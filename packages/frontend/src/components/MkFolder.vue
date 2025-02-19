@@ -67,8 +67,8 @@ const props = withDefaults(defineProps<{
 	withSpacer?: boolean;
 	spacerMin?: number;
 	spacerMax?: number;
-  inactive?: boolean;
-	isArchived? :boolean;
+	inactive?: boolean;
+	isArchived?: boolean;
 }>(), {
 	defaultOpen: false,
 	maxHeight: null,

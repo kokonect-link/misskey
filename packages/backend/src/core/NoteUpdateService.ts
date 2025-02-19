@@ -130,7 +130,7 @@ export class NoteUpdateService implements OnApplicationShutdown {
 	@bindThis
 	private async updateNote(user: {
 		id: MiUser['id']; host: MiUser['host'];
-		}, note: MiNote, data: Option, tags: string[], emojis: string[]): Promise<MiNote | null> {
+	}, note: MiNote, data: Option, tags: string[], emojis: string[]): Promise<MiNote | null> {
 		const updatedAtHistory = note.updatedAtHistory ? note.updatedAtHistory : [];
 
 		const values = new MiNote({

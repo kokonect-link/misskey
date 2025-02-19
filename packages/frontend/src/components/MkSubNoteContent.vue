@@ -8,7 +8,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<div>
 		<span v-if="note.isHidden" style="opacity: 0.5">({{ i18n.ts.private }})</span>
 		<span v-if="note.deletedAt" style="opacity: 0.5">({{ i18n.ts.deletedNote }})</span>
-		<MkA v-if="note.replyId" :class="$style.reply" :to="`/notes/${note.replyId}`"><i class="ti ti-arrow-back-up"></i></MkA>
+		<MkA v-if="note.replyId && defaultStore.state.showReplyTargetNote" :class="$style.reply" :to="`/notes/${note.replyId}`" @click.stop><i class="ti ti-arrow-back-up"></i></MkA>
+		<div v-else-if="note.replyId" style="margin-bottom: 4px;">
+			<MkA :class="$style.reply" :to="`/notes/${note.replyId}`" @click.stop><i class="ti ti-arrow-back-up"></i></MkA>
+			<MkA v-user-preview="note.reply.userId" :class="$style.replyToText" :to="userPage(note.reply.user)" @click.stop><span v-html="replyTo"></span></MkA>
+		</div>
 		<Mfm
 			v-if="note.text"
 			:parsedNodes="parsed"
@@ -131,12 +135,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, provide, Ref, ref, shallowRef, watch } from 'vue';
+import { computed, inject, provide, ref, shallowRef, watch } from 'vue';
 import * as mfm from 'mfc-js';
 import * as Misskey from 'cherrypick-js';
 import { shouldCollapsed, shouldMfmCollapsed } from '@@/js/collapsed.js';
 import { concat } from '@@/js/array.js';
 import { host } from '@@/js/config.js';
+import type { Ref } from 'vue';
+import type { OpenOnRemoteOptions } from '@/scripts/please-login.js';
 import * as os from '@/os.js';
 import * as sound from '@/scripts/sound.js';
 import MkMediaList from '@/components/MkMediaList.vue';
@@ -151,7 +157,7 @@ import { miLocalStorage } from '@/local-storage.js';
 import { instance } from '@/instance.js';
 import { notePage } from '@/filters/note.js';
 import { useTooltip } from '@/scripts/use-tooltip.js';
-import { type OpenOnRemoteOptions, pleaseLogin } from '@/scripts/please-login.js';
+import { pleaseLogin } from '@/scripts/please-login.js';
 import { showMovedDialog } from '@/scripts/show-moved-dialog.js';
 import { getNoteClipMenu, getNoteMenu, getRenoteMenu, getRenoteOnly, getQuoteMenu } from '@/scripts/get-note-menu.js';
 import { deepClone } from '@/scripts/clone.js';
@@ -162,14 +168,15 @@ import { vibrate } from '@/scripts/vibrate.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import detectLanguage from '@/scripts/detect-language.js';
 import number from '@/filters/number.js';
+import { userPage } from '@/filters/user.js';
 
 const props = withDefaults(defineProps<{
-  note: Misskey.entities.Note & {
-		isSchedule? : boolean,
+	note: Misskey.entities.Note & {
+		isSchedule?: boolean,
 		scheduledNoteId?: string
 	};
-  mock?: boolean;
-  showSubNoteFooterButton?: boolean;
+	mock?: boolean;
+	showSubNoteFooterButton?: boolean;
 }>(), {
 	mock: false,
 });
@@ -177,8 +184,8 @@ const props = withDefaults(defineProps<{
 provide('mock', props.mock);
 
 const emit = defineEmits<{
-  (ev: 'reaction', emoji: string): void;
-  (ev: 'removeReaction', emoji: string): void;
+	(ev: 'reaction', emoji: string): void;
+	(ev: 'removeReaction', emoji: string): void;
 }>();
 
 const note = ref(deepClone(props.note));
@@ -217,6 +224,14 @@ const collapseLabel = computed(() => {
 	return concat([
 		props.note.files && props.note.files.length !== 0 ? [i18n.tsx._cw.files({ count: props.note.files.length })] : [],
 	] as string[][]).join(' / ');
+});
+
+const replyTo = computed(() => {
+	const username = props.note.reply.user.username;
+	const text = i18n.tsx.replyTo({ user: username });
+	const user = `<span style="color: var(--MI_THEME-accent); margin-right: 0.25em;">@${username}</span>`;
+
+	return text.replace(username, user);
 });
 
 if (props.mock) {
@@ -338,12 +353,17 @@ function react(): void {
 		}
 	} else {
 		blur();
-		reactionPicker.show(reactButton.value ?? null, note.value, reaction => {
-			if (props.mock) {
-				emit('reaction', reaction);
-				return;
+		reactionPicker.show(reactButton.value ?? null, note.value, async (reaction) => {
+			if (defaultStore.state.confirmOnReact) {
+				const confirm = await os.confirm({
+					type: 'question',
+					text: i18n.tsx.reactAreYouSure({ emoji: reaction.replace('@.', '') }),
+				});
+
+				if (confirm.canceled) return;
 			}
-			toggleReaction(reaction);
+
+			await toggleReaction(reaction);
 		}, () => {
 			focus();
 		});
@@ -547,6 +567,16 @@ function emitUpdReaction(emoji: string, delta: number) {
 .reply {
 	margin-right: 6px;
 	color: var(--MI_THEME-accent);
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.replyToText {
+	&:hover {
+		text-decoration: none;
+	}
 }
 
 .rp {
@@ -603,7 +633,7 @@ function emitUpdReaction(emoji: string, delta: number) {
 	opacity: .8;
 
 	&:hover {
-		background: var(--MI_THEME-X5);
+		background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 	}
 }
 

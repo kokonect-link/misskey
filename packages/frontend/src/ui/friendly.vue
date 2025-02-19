@@ -107,19 +107,21 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, provide, onMounted, onBeforeUnmount, ref, watch, shallowRef, Ref, onUnmounted, computed } from 'vue';
+import { defineAsyncComponent, provide, onMounted, computed, ref, watch, shallowRef, onBeforeUnmount, onUnmounted } from 'vue';
 import tinycolor from 'tinycolor2';
 import { instanceName } from '@@/js/config.js';
 import { CURRENT_STICKY_BOTTOM } from '@@/js/const.js';
 import { isLink } from '@@/js/is-link.js';
+import type { Ref } from 'vue';
 import type MkStickyContainer from '@/components/global/MkStickyContainer.vue';
+import type { PageMetadata } from '@/scripts/page-metadata.js';
 import XCommon from '@/ui/_common_/common.vue';
 import XDrawerMenu from '@/ui/friendly/navbar-for-mobile.vue';
 import * as os from '@/os.js';
 import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
 import { $i, openAccountMenu as openAccountMenu_ } from '@/account.js';
-import { PageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
+import { provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
 import { deviceKind } from '@/scripts/device-kind.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { useScrollPositionManager } from '@/nirax.js';

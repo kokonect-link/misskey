@@ -4,9 +4,9 @@
  */
 
 import { expect } from '@storybook/test';
-import { StoryObj } from '@storybook/vue3';
 import { userDetailed } from '../../../.storybook/fakes.js';
 import MkUserName from './MkUserName.vue';
+import type { StoryObj } from '@storybook/vue3';
 export const Default = {
 	render(args) {
 		return {

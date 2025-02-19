@@ -179,7 +179,7 @@ async function composeNotification(data: PushNotificationDataMap[keyof PushNotif
 
 				case 'receiveFollowRequest':
 					return [i18n.ts._notification.youReceivedFollowRequest, {
-						body: getUserName(data.body.user),
+						body: `${getUserName(data.body.user)} (@${data.body.user.username}${data.body.user.host != null ? '@' + data.body.user.host : ''})`,
 						icon: data.body.user.avatarUrl ?? undefined,
 						badge: iconUrl('user-plus'),
 						data,
@@ -197,7 +197,7 @@ async function composeNotification(data: PushNotificationDataMap[keyof PushNotif
 
 				case 'followRequestAccepted':
 					return [i18n.ts._notification.yourFollowRequestAccepted, {
-						body: getUserName(data.body.user),
+						body: `${getUserName(data.body.user)} (@${data.body.user.username}${data.body.user.host != null ? '@' + data.body.user.host : ''})`,
 						icon: data.body.user.avatarUrl ?? undefined,
 						badge: iconUrl('circle-check'),
 						data,

@@ -439,12 +439,12 @@ export class FileInfoService {
 	 */
 	@bindThis
 	private async detectImageSize(path: string): Promise<{
-	width: number;
-	height: number;
-	wUnits: string;
-	hUnits: string;
-	orientation?: number;
-}> {
+		width: number;
+		height: number;
+		wUnits: string;
+		hUnits: string;
+		orientation?: number;
+	}> {
 		const readable = fs.createReadStream(path);
 		const imageSize = await probeImageSize(readable);
 		readable.destroy();

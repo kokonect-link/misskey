@@ -35,7 +35,7 @@ export type SystemWebhookPayload = {
 	createdAt: string;
 	type: string;
 	body: any;
-}
+};
 
 const config = loadConfig();
 export const port = config.port;

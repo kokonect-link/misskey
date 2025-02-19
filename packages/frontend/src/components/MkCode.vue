@@ -52,7 +52,7 @@ function copy() {
 }
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .codeBlockRoot {
 	position: relative;
 }

@@ -28,7 +28,7 @@ defineProps<{
 }>();
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 $buttonSize : 1.8em;
 
 .root {

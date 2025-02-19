@@ -16,6 +16,6 @@ export function assertActivityMatchesUrls(activity: IObject, urls: string[]) {
 	const urlOk = typeof(activity.url) === 'string' && hosts.includes(new URL(activity.url).host);
 
 	if (!idOk && !urlOk) {
-		throw new Error(`bad Activity: neither id(${activity?.id}) nor url(${activity?.url}) match location(${urls})`);
+		throw new Error(`bad Activity: neither id(${activity.id}) nor url(${activity.url}) match location(${urls})`);
 	}
 }

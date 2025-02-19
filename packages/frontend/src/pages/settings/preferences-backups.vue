@@ -164,6 +164,7 @@ const defaultStoreSaveKeys: (keyof typeof defaultStore['state'])[] = [
 	'showFixedPostFormInReplies',
 	'allMediaNoteCollapse',
 	'alwaysShowCw',
+	'showReplyTargetNote',
 	'showReplyTargetNoteInSemiTransparent',
 	'nsfwOpenBehavior',
 	'removeModalBgColorForBlur',

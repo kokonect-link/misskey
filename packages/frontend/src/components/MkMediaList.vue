@@ -163,7 +163,7 @@ onMounted(() => {
 
 	// prevent to open hidden media
 	lightbox.addFilter('clickedIndex', (clickedIndex) => {
-		if ((gallery.value?.children[clickedIndex] as HTMLElement|undefined)?.dataset.isHidden === 'true') {
+		if ((gallery.value?.children[clickedIndex] as HTMLElement | undefined)?.dataset.isHidden === 'true') {
 			return -1;
 		}
 		return clickedIndex;

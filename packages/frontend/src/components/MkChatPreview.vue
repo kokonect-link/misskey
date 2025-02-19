@@ -40,7 +40,7 @@ import { $i } from '@/account.js';
 import { i18n } from '@/i18n.js';
 
 const props = defineProps<{
-  message: Misskey.entities.MessagingMessage;
+	message: Misskey.entities.MessagingMessage;
 }>();
 
 function isMe(message): boolean {

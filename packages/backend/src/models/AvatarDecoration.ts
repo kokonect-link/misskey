@@ -46,4 +46,9 @@ export class MiAvatarDecoration {
 		length: 128, nullable: true,
 	})
 	public host: string | null;
+
+	@Column('text', {
+		nullable: true,
+	})
+	public rawUrl: string | null;
 }

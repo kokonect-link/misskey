@@ -100,13 +100,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script setup lang="ts">
 import { computed, onMounted, ref, shallowRef, toRefs } from 'vue';
 import * as Misskey from 'cherrypick-js';
-import MkInput from '@/components/MkInput.vue';
-import MkSwitch from '@/components/MkSwitch.vue';
-import {
+import type {
 	MkSystemWebhookEditorProps,
 	MkSystemWebhookResult,
 	SystemWebhookEventType,
 } from '@/components/MkSystemWebhookEditor.impl.js';
+import MkInput from '@/components/MkInput.vue';
+import MkSwitch from '@/components/MkSwitch.vue';
 import { i18n } from '@/i18n.js';
 import MkButton from '@/components/MkButton.vue';
 import { misskeyApi } from '@/scripts/misskey-api.js';
@@ -121,7 +121,7 @@ type EventType = {
 	inactiveModeratorsWarning: boolean;
 	inactiveModeratorsInvitationOnlyChanged: boolean;
 	inactiveModeratorsDisablePublicNoteChanged: boolean;
-}
+};
 
 const emit = defineEmits<{
 	(ev: 'submitted', result: MkSystemWebhookResult): void;
@@ -274,7 +274,7 @@ onMounted(async () => {
 });
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .root {
 	display: flex;
 	flex-direction: column;

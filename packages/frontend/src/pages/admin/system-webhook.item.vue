@@ -70,7 +70,7 @@ function onDeleteClick() {
 
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .icon {
 	margin-right: 0.75em;
 	flex-shrink: 0;

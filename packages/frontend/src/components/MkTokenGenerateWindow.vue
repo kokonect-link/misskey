@@ -132,7 +132,7 @@ function enableAll(): void {
 }
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .adminPermissions {
 	margin: 8px -6px 0;
 	padding: 24px 6px 6px;
